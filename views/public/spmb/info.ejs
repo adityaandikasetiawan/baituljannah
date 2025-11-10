@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> - <%= appName %></title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/iconsax.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div class="main-wrapper">
+    <%- include('../../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+    <div class="breadcrumb-bar text-center">
+      <div class="container">
+        <h2 class="breadcrumb-title mb-2">Informasi SPMB</h2>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/spmb">SPMB</a></li>
+            <li class="breadcrumb-item active">Informasi</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+            <div class="card">
+              <div class="card-body">
+                <h3 class="mb-3">Tata Cara Pendaftaran</h3>
+                <ol>
+                  <li>Mengisi form pendaftaran online dengan data yang benar.</li>
+                  <li>Mengunggah dokumen pendukung jika diminta.</li>
+                  <li>Menunggu konfirmasi dari panitia SPMB melalui email/telepon.</li>
+                  <li>Mengikuti tahapan seleksi sesuai jadwal.</li>
+                </ol>
+                <hr>
+                <h5>Jalur Pendaftaran</h5>
+                <ul>
+                  <li>Reguler</li>
+                  <li>Prestasi</li>
+                  <li>Beasiswa</li>
+                </ul>
+
+                <div class="alert alert-info d-flex align-items-center">
+                  <i class="isax isax-info-circle me-2"></i>
+                  <div>
+                    Untuk mendaftar secara online, silakan klik tombol berikut:
+                  </div>
+                </div>
+                <a href="/spmb/register" class="btn btn-primary">
+                  <i class="isax isax-add-circle me-2"></i>Daftar Online
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ <%- include('../../partials/footer') %>
+  </div>
+
+  <script src="/assets/js/jquery-3.7.1.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Baitul Jannah School</title>
+<link rel="shortcut icon" href="/assets/img/logo.webp">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+        <header class="header-two">
+            <div class="container">
+                <div class="header-nav">
+                    <div class="navbar-header">
+                        <a id="mobile_btn" href="javascript:void(0);">
+                            <span class="bar-icon"><span></span><span></span><span></span></span>
+                        </a>
+                        <div class="navbar-logo">
+<a href="/"><img src="/assets/img/logo.webp" class="logo" alt="Logo"></a>
+                        </div>
+                    </div>
+                    <div class="header-btn d-flex align-items-center">
+                        <a href="/admin/users" class="btn btn-secondary me-2">Kembali</a>
+                        <a href="/logout" class="btn btn-danger">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
+            <div class="container">
+                <h2 class="breadcrumb-title mb-2"><%= user ? 'Edit User' : 'Tambah User' %></h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/users">Kelola User</a></li>
+                        <li class="breadcrumb-item active"><%= user ? 'Edit' : 'Tambah' %></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <% if (error) { %>
+                                    <div class="alert alert-danger alert-dismissible fade show">
+                                        <%= error %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                <% } %>
+
+                                <form action="<%= user ? '/admin/users/' + user.id : '/admin/users' %>" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                                            <input type="text" name="full_name" class="form-control" value="<%= user ? user.full_name : '' %>" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Username <span class="text-danger">*</span></label>
+                                            <input type="text" name="username" class="form-control" value="<%= user ? user.username : '' %>" <%= user ? 'readonly' : 'required' %>>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Email <span class="text-danger">*</span></label>
+                                            <input type="email" name="email" class="form-control" value="<%= user ? user.email : '' %>" <%= user ? 'readonly' : 'required' %>>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Role <span class="text-danger">*</span></label>
+                                            <select name="role" class="form-control" <%= user ? 'disabled' : 'required' %>>
+                                                <option value="">Pilih Role</option>
+                                                <option value="admin" <%= user && user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+                                                <option value="teacher" <%= user && user.role === 'teacher' ? 'selected' : '' %>>Guru</option>
+                                                <option value="student" <%= user && user.role === 'student' ? 'selected' : '' %>>Siswa</option>
+                                            </select>
+                                        </div>
+                                        <% if (!user) { %>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Password <span class="text-danger">*</span></label>
+                                            <input type="password" name="password" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Konfirmasi Password <span class="text-danger">*</span></label>
+                                            <input type="password" name="confirm_password" class="form-control" required>
+                                        </div>
+                                        <% } %>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">No. Telepon</label>
+                                            <input type="tel" name="phone" class="form-control" value="<%= user ? user.phone || '' : '' %>">
+                                        </div>
+                                        <% if (user) { %>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Status <span class="text-danger">*</span></label>
+                                            <select name="status" class="form-control" required>
+                                                <option value="active" <%= user.status === 'active' ? 'selected' : '' %>>Aktif</option>
+                                                <option value="inactive" <%= user.status === 'inactive' ? 'selected' : '' %>>Nonaktif</option>
+                                            </select>
+                                        </div>
+                                        <% } %>
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Alamat</label>
+                                            <textarea name="address" class="form-control" rows="3"><%= user ? user.address || '' : '' %></textarea>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="isax isax-save-2 me-2"></i><%= user ? 'Update' : 'Simpan' %>
+                                            </button>
+                                            <a href="/admin/users" class="btn btn-secondary ms-2">Batal</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="text-center">
+                        <p class="text-white">Copyright &copy; <%= new Date().getFullYear() %> Baitul Jannah School</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

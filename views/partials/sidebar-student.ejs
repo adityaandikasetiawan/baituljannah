@@ -1,0 +1,54 @@
+<!-- Student Sidebar Partial - unified settings-sidebar style -->
+<div class="settings-sidebar">
+  <div>
+    <h6 class="mb-3">Menu Utama</h6>
+    <ul class="mb-3 pb-1">
+      <li>
+        <a href="/student/dashboard" class="d-inline-flex align-items-center <%= currentPath.includes('/student/dashboard') ? 'active' : '' %>">
+          <i class="isax isax-grid-35 me-2"></i>
+          Dashboard
+        </a>
+      </li>
+      <li>
+        <a href="/student/profile" class="d-inline-flex align-items-center <%= currentPath.includes('/student/profile') ? 'active' : '' %>">
+          <i class="fa-solid fa-user me-2"></i>
+          Profil Saya
+        </a>
+      </li>
+      <li>
+        <a href="/student/grades" class="d-inline-flex align-items-center <%= currentPath.includes('/student/grades') ? 'active' : '' %>">
+          <i class="isax isax-award5 me-2"></i>
+          Nilai
+        </a>
+      </li>
+      <li>
+        <a href="/student/schedule" class="d-inline-flex align-items-center <%= currentPath.includes('/student/schedule') ? 'active' : '' %>">
+          <i class="isax isax-calendar5 me-2"></i>
+          Jadwal
+        </a>
+      </li>
+      <li>
+        <a href="/student/certificates" class="d-inline-flex align-items-center <%= currentPath.includes('/student/certificates') ? 'active' : '' %>">
+          <i class="isax isax-note-215 me-2"></i>
+          Sertifikat
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <h6 class="mb-3">Pengaturan</h6>
+    <ul>
+      <li>
+        <a href="/student/settings" class="d-inline-flex align-items-center <%= currentPath.includes('/student/settings') ? 'active' : '' %>">
+          <i class="isax isax-setting-25 me-2"></i>
+          Pengaturan
+        </a>
+      </li>
+      <li>
+        <a href="/logout" class="d-inline-flex align-items-center">
+          <i class="isax isax-logout5 me-2"></i>
+          Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Baitul Jannah School</title>
+<link rel="shortcut icon" href="/assets/img/logo.webp">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+         <%- include('../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
+            <div class="container">
+                <h2 class="breadcrumb-title mb-2">Nilai Saya</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/student/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Nilai</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <!-- Sidebar -->
+                    <div class="col-lg-3 theiaStickySidebar">
+                        <%- include('../partials/sidebar-student') %>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="col-lg-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="mb-4 border-bottom pb-3">Daftar Nilai Per Semester</h5>
+
+                                <% if (Object.keys(gradesBySemester).length > 0) { %>
+                                    <% Object.keys(gradesBySemester).reverse().forEach(semester => { %>
+                                    <div class="mb-4">
+                                        <h6 class="mb-3">
+                                            <i class="isax isax-calendar me-2 text-primary"></i>
+                                            Semester <%= semester %>
+                                        </h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Mata Pelajaran</th>
+                                                        <th>Nilai</th>
+                                                        <th>Keterangan</th>
+                                                        <th>Guru</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% gradesBySemester[semester].forEach((grade, index) => { %>
+                                                    <tr>
+                                                        <td><%= index + 1 %></td>
+                                                        <td><%= grade.subject %></td>
+                                                        <td>
+                                                            <span class="badge bg-<%= grade.grade >= 80 ? 'success' : grade.grade >= 70 ? 'warning' : 'danger' %> fs-6">
+                                                                <%= grade.grade %>
+                                                            </span>
+                                                        </td>
+                                                        <td><%= grade.remarks %></td>
+                                                        <td><%= grade.teacher_name %></td>
+                                                    </tr>
+                                                    <% }); %>
+                                                    <tr class="table-active">
+                                                        <td colspan="2" class="text-end"><strong>Rata-rata:</strong></td>
+                                                        <td colspan="3">
+                                                            <% 
+                                                            const avg = gradesBySemester[semester].reduce((sum, g) => sum + g.grade, 0) / gradesBySemester[semester].length;
+                                                            %>
+                                                            <span class="badge bg-<%= avg >= 80 ? 'success' : avg >= 70 ? 'warning' : 'danger' %> fs-6">
+                                                                <%= avg.toFixed(2) %>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                                <% } else { %>
+                                    <div class="text-center py-5">
+                                        <img src="/assets/img/error/error-03.svg" class="img-fluid mb-4" style="max-width: 300px;" alt="No Grades">
+                                        <h5>Belum Ada Nilai</h5>
+                                        <p class="text-muted">Nilai Anda akan ditampilkan di sini setelah guru menginput nilai.</p>
+                                    </div>
+                                <% } %>
+
+                                <div class="alert alert-info mt-4">
+                                    <h6 class="alert-heading"><i class="isax isax-info-circle me-2"></i>Keterangan Nilai</h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="mb-0">
+                                                <li><span class="badge bg-success">80-100</span> = Sangat Baik</li>
+                                                <li><span class="badge bg-warning">70-79</span> = Baik</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="mb-0">
+                                                <li><span class="badge bg-danger">< 70</span> = Perlu Perbaikan</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+<%- include('../partials/footer') %>
+    </div>
+
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
+    <script src="/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

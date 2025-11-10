@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Baitul Jannah School</title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+        <%- include('../../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
+            <div class="container">
+                <h2 class="breadcrumb-title mb-2">Pendaftaran SPMB</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/spmb">SPMB</a></li>
+                        <li class="breadcrumb-item active">Daftar</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="mb-4 text-center">Formulir Pendaftaran Siswa Baru</h3>
+                                
+                                <% if (error) { %>
+                                    <div class="alert alert-danger alert-dismissible fade show">
+                                        <%= error %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                <% } %>
+                                
+                                <% if (success) { %>
+                                    <div class="alert alert-success alert-dismissible fade show">
+                                        <h5 class="alert-heading">Pendaftaran Berhasil!</h5>
+                                        <%= success %>
+                                        <hr>
+                                        <p class="mb-0">Kami akan menghubungi Anda melalui email atau telepon untuk informasi lebih lanjut.</p>
+                                        <div class="mt-3">
+                                            <a href="/" class="btn btn-primary">Kembali ke Beranda</a>
+                                        </div>
+                                    </div>
+                                <% } else { %>
+
+                                <form action="/spmb/register" method="POST">
+                                    <h5 class="mb-3 border-bottom pb-2">Data Calon Siswa</h5>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                                            <input type="text" name="full_name" class="form-control" value="<%= formData.full_name || '' %>" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Email <span class="text-danger">*</span></label>
+                                            <input type="email" name="email" class="form-control" value="<%= formData.email || '' %>" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">No. Telepon <span class="text-danger">*</span></label>
+                                            <input type="tel" name="phone" class="form-control" value="<%= formData.phone || '' %>" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Jenis Kelamin <span class="text-danger">*</span></label>
+                                            <select name="gender" class="form-control" required>
+                                                <option value="">Pilih Jenis Kelamin</option>
+                                                <option value="male" <%= formData.gender === 'male' ? 'selected' : '' %>>Laki-laki</option>
+                                                <option value="female" <%= formData.gender === 'female' ? 'selected' : '' %>>Perempuan</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Tempat Lahir <span class="text-danger">*</span></label>
+                                            <input type="text" name="birth_place" class="form-control" value="<%= formData.birth_place || '' %>" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Tanggal Lahir <span class="text-danger">*</span></label>
+                                            <input type="date" name="birth_date" class="form-control" value="<%= formData.birth_date || '' %>" required>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Alamat Lengkap <span class="text-danger">*</span></label>
+                                            <textarea name="address" class="form-control" rows="3" required><%= formData.address || '' %></textarea>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Program yang Dipilih <span class="text-danger">*</span></label>
+                                            <select name="program" class="form-control" required>
+                                                <option value="">Pilih Program</option>
+                                                <option value="PGIT-TKIT" <%= formData.program === 'PGIT-TKIT' ? 'selected' : '' %>>PGIT-TKIT (Pendidikan Guru & TK Islam Terpadu)</option>
+                                                <option value="SDIT" <%= formData.program === 'SDIT' ? 'selected' : '' %>>SDIT (SD Islam Terpadu)</option>
+                                                <option value="SMPIT" <%= formData.program === 'SMPIT' ? 'selected' : '' %>>SMPIT (SMP Islam Terpadu)</option>
+                                                <option value="SMAIT" <%= formData.program === 'SMAIT' ? 'selected' : '' %>>SMAIT (SMA Islam Terpadu)</option>
+                                                <option value="SLBIT" <%= formData.program === 'SLBIT' ? 'selected' : '' %>>SLBIT (SLB Islam Terpadu)</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Asal Sekolah</label>
+                                            <input type="text" name="previous_school" class="form-control" value="<%= formData.previous_school || '' %>">
+                                        </div>
+                                    </div>
+
+                                    <h5 class="mb-3 mt-4 border-bottom pb-2">Data Orang Tua/Wali</h5>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Nama Orang Tua/Wali <span class="text-danger">*</span></label>
+                                            <input type="text" name="parent_name" class="form-control" value="<%= formData.parent_name || '' %>" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">No. Telepon Orang Tua <span class="text-danger">*</span></label>
+                                            <input type="tel" name="parent_phone" class="form-control" value="<%= formData.parent_phone || '' %>" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Pekerjaan Orang Tua</label>
+                                            <input type="text" name="parent_occupation" class="form-control" value="<%= formData.parent_occupation || '' %>">
+                                        </div>
+                                    </div>
+
+                                    <div class="alert alert-info mt-4">
+                                        <h6 class="alert-heading"><i class="isax isax-info-circle me-2"></i>Informasi Penting</h6>
+                                        <ul class="mb-0">
+                                            <li>Pastikan semua data yang diisi sudah benar</li>
+                                            <li>Setelah mendaftar, Anda akan dihubungi oleh pihak sekolah</li>
+                                            <li>Siapkan dokumen pendukung (Akta Kelahiran, Kartu Keluarga, Ijazah)</li>
+                                            <li>Untuk informasi lebih lanjut, hubungi: 021-1234-5678</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="agree" required>
+                                        <label class="form-check-label" for="agree">
+                                            Saya menyatakan bahwa data yang saya isi adalah benar dan dapat dipertanggungjawabkan <span class="text-danger">*</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="isax isax-send-2 me-2"></i>Kirim Pendaftaran
+                                        </button>
+                                        <a href="/spmb" class="btn btn-secondary">Batal</a>
+                                    </div>
+                                </form>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <%- include('../../partials/footer') %>
+    </div>
+
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> - <%= appName %></title>
+<link rel="shortcut icon" href="/assets/img/logo.webp">
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/iconsax.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div class="main-wrapper">
+    <%- include('../../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+    <div class="breadcrumb-bar text-center">
+      <div class="container">
+        <h2 class="breadcrumb-title mb-2">SMPIT</h2>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/profile/smpit">Profile</a></li>
+            <li class="breadcrumb-item active">SMPIT</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+            <div class="card">
+              <div class="card-body">
+                <h3 class="mb-3">Profil SMPIT</h3>
+                <p class="text-muted">Menyiapkan generasi remaja yang berakhlak, mandiri, dan berprestasi melalui kurikulum selaras minat dan bakat.</p>
+                <ul>
+                  <li>Jenjang: Kelas 7-9</li>
+                  <li>Program unggulan: Tahfidz, riset ilmiah, bahasa asing, teknologi</li>
+                  <li>Ekstrakurikuler: Jurnalistik, robotik, olahraga, seni</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ <%- include('../../partials/footer') %>
+  </div>
+
+  <script src="/assets/js/jquery-3.7.1.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/script.js"></script>
+</body>
+</html>

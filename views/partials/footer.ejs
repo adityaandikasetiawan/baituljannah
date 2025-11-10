@@ -1,0 +1,100 @@
+<!-- Global Footer Partial -->
+< <footer class="footer">
+                <div class="footer-bg">
+                    <img src="/assets/img/bg/footer-bg-01.png" class="footer-bg-1" alt="">
+                    <img src="/assets/img/bg/footer-bg-02.png" class="footer-bg-2" alt="">
+                </div>
+                <div class="footer-top">
+                    <div class="container">
+                        <div class="row row-gap-4">
+                            <div class="col-lg-4">
+                                <div class="footer-about">
+                                <div class="footer-logo">
+                                        <img src="/assets/img/logo.webp" class="logo img-fluid" alt="Logo">
+                                    </div>
+                                    <p>Baitul Jannah School - Membangun Generasi Qurani yang Berakhlak Mulia dengan pendidikan berkualitas berbasis nilai-nilai Islam.</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="row row-gap-4">
+                                    <div class="col-lg-3">
+                                        <div class="footer-widget footer-menu">
+                                            <h5 class="footer-title">Tentang</h5>
+                                            <ul>
+                                                <li><a href="/about/sejarah">Sejarah</a></li>
+                                                <li><a href="/about/visi-misi">Visi & Misi</a></li>
+                                                <li><a href="/about/kepengurusan">Kepengurusan</a></li>
+                                                <li><a href="/about/fasilitas">Fasilitas</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="footer-widget footer-menu">
+                                            <h5 class="footer-title">Program</h5>
+                                            <ul>
+                                                <li><a href="/profile/pgit-tkit">PGIT-TKIT</a></li>
+                                                <li><a href="/profile/sdit">SDIT</a></li>
+                                                <li><a href="/profile/smpit">SMPIT</a></li>
+                                                <li><a href="/profile/smait">SMAIT</a></li>
+                                                <li><a href="/profile/slbit">SLBIT</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="footer-widget footer-contact">
+                                            <h5 class="footer-title">Kontak Kami</h5>
+                                            <div class="footer-contact-info">
+                                                <div class="footer-address d-flex align-items-center">
+                                                    <img src="/assets/img/icon/icon-20.svg" alt="Img" class="img-fluid me-2">
+                                                    <p>Jl. Pendidikan No. 123<br>Jakarta, Indonesia</p>
+                                                </div>
+                                                <div class="footer-address d-flex align-items-center">
+                                                    <img src="/assets/img/icon/icon-19.svg" alt="Img" class="img-fluid me-2">
+                                                    <p>info@baituljannah.sch.id</p>
+                                                </div>
+                                                <div class="footer-address d-flex align-items-center">
+                                                    <img src="/assets/img/icon/icon-21.svg" alt="Img" class="img-fluid me-2">
+                                                    <p>+62 21 1234 5678</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>	
+                <div class="footer-bottom">
+                    <div class="container">
+                        <div class="row row-gap-2">
+                            <div class="col-md-6">
+                                <div class="text-center text-md-start">
+                                    <p class="text-white">Copyright &copy; <%= new Date().getFullYear() %> Baitul Jannah School. All rights reserved.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div>
+                                    <ul class="d-flex align-items-center justify-content-center justify-content-md-end footer-link">
+                                        <li><a href="/contact">Kontak</a></li>
+                                        <li><a href="/faq">FAQ</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- /Footer -->	
+
+<!-- Core Scripts -->
+<script src="/assets/js/jquery-3.7.1.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/plugins/slick/slick.js"></script>
+<script src="/assets/plugins/select2/js/select2.min.js"></script>
+<script src="/assets/plugins/aos/aos.js"></script>
+<!-- Load main script; add cache-busting only in development -->
+<% if (process.env.NODE_ENV !== 'production') { %>
+  <script src="/assets/js/script.js?v=<%= Date.now() %>"></script>
+<% } else { %>
+  <script src="/assets/js/script.js"></script>
+<% } %>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Baitul Jannah School</title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+        <%- include('../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
+            <div class="container">
+                <h2 class="breadcrumb-title mb-2">Berita Terbaru</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">Berita</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <% if (news && news.length > 0) { %>
+                        <% news.forEach(item => { %>
+                        <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
+                            <div class="course-item course-item-four mx-0">
+                                <div class="course-img">
+                                    <a href="/news/<%= item.slug %>">
+                                        <% const listImgSrc = item.image || '/assets/img/blog/blog-31.jpg'; const listIsUpload = listImgSrc && listImgSrc.startsWith('/uploads/'); const listBaseNoExt = listIsUpload ? listImgSrc.replace(/\.(jpg|jpeg|png)$/i, '') : null; const listWebpSrc = listBaseNoExt ? listBaseNoExt + '.webp' : null; %>
+                                        <picture>
+                                            <% if (listWebpSrc) { %>
+                                            <source type="image/webp" srcset="<%= listBaseNoExt %>-320.webp 320w, <%= listBaseNoExt %>-640.webp 640w, <%= listBaseNoExt %>-1024.webp 1024w, <%= listBaseNoExt %>-1600.webp 1600w" sizes="(min-width: 1200px) 33vw, (min-width: 768px) 50vw, 100vw">
+                                            <% } %>
+                                            <img class="img-fluid" alt="<%= item.title %>" src="<%= listImgSrc %>" loading="lazy" decoding="async">
+                                        </picture>
+                                    </a>
+                                    <div class="position-absolute start-0 top-0 d-flex align-items-start w-100 z-index-2 p-2">
+                                        <a href="javascript:void(0);" class="course-name"><%= item.category %></a>
+                                    </div>
+                                </div>
+                                <div class="course-content">
+                                    <h3 class="title"><a href="/news/<%= item.slug %>"><%= item.title %></a></h3>
+                                    <p><%= item.excerpt %></p>
+                                    <div class="course-info">
+                                        <p class="course-time"><i class="fa-regular fa-clock me-2"></i><%= new Date(item.published_date).toLocaleDateString('id-ID') %></p>
+                                        <a href="/news/<%= item.slug %>" class="btn btn-dark btn-sm">Baca Selengkapnya</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="col-12 text-center py-5">
+                            <p>Belum ada berita tersedia.</p>
+                        </div>
+                    <% } %>
+                </div>
+
+                <!-- Pagination -->
+                <% if (totalPages > 1) { %>
+                <div class="row">
+                    <div class="col-12">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                                    <a class="page-link" href="/news?page=<%= currentPage - 1 %><%= category ? '&category=' + category : '' %>">Previous</a>
+                                </li>
+                                <% for (let i = 1; i <= totalPages; i++) { %>
+                                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                    <a class="page-link" href="/news?page=<%= i %><%= category ? '&category=' + category : '' %>"><%= i %></a>
+                                </li>
+                                <% } %>
+                                <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                    <a class="page-link" href="/news?page=<%= currentPage + 1 %><%= category ? '&category=' + category : '' %>">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <%- include('../partials/footer') %>
+    </div>
+
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

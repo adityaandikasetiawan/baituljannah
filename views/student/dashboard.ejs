@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Baitul Jannah School</title>
+<link rel="shortcut icon" href="/assets/img/logo.webp">
+    <script src="/assets/js/theme-script.js"></script>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/feather.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+        <%- include('../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
+            <div class="container">
+                <h2 class="breadcrumb-title mb-2">Dashboard Siswa</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="container">
+                <!-- Profile Card -->
+                <div class="profile-card overflow-hidden bg-blue-gradient2 mb-5 p-5">
+                    <div class="profile-card-bg">
+                        <img src="/assets/img/bg/card-bg-01.png" class="profile-card-bg-1" alt="">
+                    </div>
+                    <div class="row align-items-center row-gap-3">
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <span class="avatar avatar-xxl avatar-rounded me-3 border border-white border-2">
+                                    <img src="<%= student.avatar || '/assets/img/user/user-02.jpg' %>" alt="">
+                                </span>
+                                <div>
+                                    <h5 class="mb-1 text-white"><%= student.full_name %></h5>
+                                    <p class="text-light">NIS: <%= student.student_id %></p>
+                                    <p class="text-light">Kelas: <%= student.class || '-' %></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center justify-content-lg-end flex-wrap gap-2">
+                                <a href="/student/profile" class="btn btn-white rounded-pill">Edit Profil</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Sidebar -->
+                    <div class="col-lg-3 theiaStickySidebar">
+                        <%- include('../partials/sidebar-student') %>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="col-lg-9">
+                        <!-- Statistics -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <span class="icon-box bg-primary-transparent me-3 flex-shrink-0">
+                                                <img src="/assets/img/icon/graduation.svg" alt="">
+                                            </span>
+                                            <div>
+                                                <span class="d-block">Mata Pelajaran</span>
+                                                <h4 class="fs-24 mt-1"><%= stats.enrolledCourses %></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <span class="icon-box bg-secondary-transparent me-3 flex-shrink-0">
+                                                <img src="/assets/img/icon/book.svg" alt="">
+                                            </span>
+                                            <div>
+                                                <span class="d-block">Sedang Belajar</span>
+                                                <h4 class="fs-24 mt-1"><%= stats.activeCourses %></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <span class="icon-box bg-success-transparent me-3 flex-shrink-0">
+                                                <img src="/assets/img/icon/bookmark.svg" alt="">
+                                            </span>
+                                            <div>
+                                                <span class="d-block">Selesai</span>
+                                                <h4 class="fs-24 mt-1"><%= stats.completedCourses %></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Grades -->
+                        <% if (recentGrades && recentGrades.length > 0) { %>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="mb-3 border-bottom pb-3 fs-18">Nilai Terbaru</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Mata Pelajaran</th>
+                                                <th>Semester</th>
+                                                <th>Nilai</th>
+                                                <th>Keterangan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% recentGrades.forEach(grade => { %>
+                                            <tr>
+                                                <td><%= grade.subject %></td>
+                                                <td><%= grade.semester %></td>
+                                                <td><span class="badge bg-<%= grade.grade >= 80 ? 'success' : grade.grade >= 70 ? 'warning' : 'danger' %>"><%= grade.grade %></span></td>
+                                                <td><%= grade.remarks %></td>
+                                            </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <a href="/student/grades" class="btn btn-primary">Lihat Semua Nilai</a>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <!-- Latest News -->
+                        <% if (latestNews && latestNews.length > 0) { %>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="mb-3 border-bottom pb-3 fs-18">Berita Terbaru</h5>
+                                <% latestNews.forEach(news => { %>
+                                <div class="d-flex align-items-start mb-3 pb-3 border-bottom">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1"><a href="/news/<%= news.slug %>"><%= news.title %></a></h6>
+                                        <p class="small text-muted mb-0"><%= news.excerpt %></p>
+                                        <small class="text-muted"><i class="fa-regular fa-clock me-1"></i><%= new Date(news.published_date).toLocaleDateString('id-ID') %></small>
+                                    </div>
+                                </div>
+                                <% }); %>
+                                <div class="text-center mt-3">
+                                    <a href="/news" class="btn btn-secondary">Lihat Semua Berita</a>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <%- include('../partials/footer') %>
+    </div>
+
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
+    <script src="/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

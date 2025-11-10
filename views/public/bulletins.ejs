@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> - <%= appName %></title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/iconsax.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div class="main-wrapper">
+    <%- include('../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+    <div class="breadcrumb-bar text-center">
+      <div class="container">
+        <h2 class="breadcrumb-title mb-2">E-Buletin</h2>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active">E-Buletin</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <% if (bulletins && bulletins.length) { %>
+            <% bulletins.forEach(b => { %>
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card h-100">
+            <img src="<%= b.cover_image || '/assets/img/blog/blog-10.jpg' %>" class="card-img-top" alt="<%= b.title %>" loading="lazy" decoding="async">
+                <div class="card-body">
+                  <h5 class="card-title"><%= b.title %></h5>
+                  <% if (b.description) { %>
+                  <p class="text-muted"><%= b.description %></p>
+                  <% } %>
+                  <p class="text-muted"><i class="isax isax-calendar-1 me-2 text-primary"></i><%= new Date(b.published_date).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }) %></p>
+                  <a href="/bulletins/<%= b.id %>/download" class="btn btn-primary">
+                    <i class="isax isax-document-download me-2"></i>Download
+                  </a>
+                  <span class="ms-2 text-muted"><i class="isax isax-eye me-1"></i><%= b.downloads || 0 %> unduhan</span>
+                </div>
+              </div>
+            </div>
+            <% }) %>
+          <% } else { %>
+            <div class="col-12 text-center py-5">
+        <img src="/assets/img/error/error-03.svg" class="img-fluid mb-4" style="max-width: 300px;" alt="No Bulletins" loading="lazy" decoding="async">
+              <h4>Belum Ada Buletin</h4>
+              <p class="text-muted">Saat ini belum ada buletin yang tersedia.</p>
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+  </div>
+
+  <script src="/assets/js/jquery-3.7.1.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/script.js"></script>
+</body>
+</html>

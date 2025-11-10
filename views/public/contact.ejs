@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Baitul Jannah School</title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+        <%- include('../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
+            <div class="container">
+                <h2 class="breadcrumb-title mb-2">Kontak Kami</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">Kontak</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="mb-4">Kirim Pesan</h3>
+                                
+                                <% if (error) { %>
+                                    <div class="alert alert-danger alert-dismissible fade show">
+                                        <%= error %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                <% } %>
+                                
+                                <% if (success) { %>
+                                    <div class="alert alert-success alert-dismissible fade show">
+                                        <%= success %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                <% } %>
+
+                                <form action="/contact" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+                                            <input type="text" name="name" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Email <span class="text-danger">*</span></label>
+                                            <input type="email" name="email" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">No. Telepon</label>
+                                            <input type="tel" name="phone" class="form-control">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Tipe Pesan</label>
+                                            <select name="type" class="form-control">
+                                                <option value="contact">Pertanyaan Umum</option>
+                                                <option value="visit">Permohonan Kunjungan</option>
+                                                <option value="research">Permohonan Penelitian</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Subjek <span class="text-danger">*</span></label>
+                                            <input type="text" name="subject" class="form-control" required>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Pesan <span class="text-danger">*</span></label>
+                                            <textarea name="message" class="form-control" rows="5" required></textarea>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="isax isax-send-2 me-2"></i>Kirim Pesan
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="mb-3 border-bottom pb-3">Informasi Kontak</h5>
+                                
+                                <div class="d-flex align-items-start mb-3">
+                                    <i class="isax isax-location fs-3 text-primary me-3"></i>
+                                    <div>
+                                        <h6>Alamat</h6>
+                                        <p class="text-muted mb-0">Jl. Pendidikan No. 123<br>Jakarta, Indonesia 12345</p>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-start mb-3">
+                                    <i class="isax isax-call fs-3 text-primary me-3"></i>
+                                    <div>
+                                        <h6>Telepon</h6>
+                                        <p class="text-muted mb-0">+62 21 1234 5678<br>+62 812 3456 7890</p>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-start mb-3">
+                                    <i class="isax isax-sms fs-3 text-primary me-3"></i>
+                                    <div>
+                                        <h6>Email</h6>
+                                        <p class="text-muted mb-0">info@baituljannah.sch.id<br>admin@baituljannah.sch.id</p>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-start">
+                                    <i class="isax isax-clock fs-3 text-primary me-3"></i>
+                                    <div>
+                                        <h6>Jam Operasional</h6>
+                                        <p class="text-muted mb-0">Senin - Jumat: 07:00 - 16:00<br>Sabtu: 07:00 - 12:00</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h5 class="mb-3 border-bottom pb-3">Media Sosial</h5>
+                                <div class="d-flex gap-2">
+                                    <a href="#" class="btn btn-primary btn-sm"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#" class="btn btn-info btn-sm"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="btn btn-danger btn-sm"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" class="btn btn-success btn-sm"><i class="fab fa-whatsapp"></i></a>
+                                    <a href="#" class="btn btn-danger btn-sm"><i class="fab fa-youtube"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <%- include('../partials/footer') %>
+    </div>
+
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

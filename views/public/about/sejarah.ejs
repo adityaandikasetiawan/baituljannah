@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> - <%= appName %></title>
+<link rel="shortcut icon" href="/assets/img/logo.webp">
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/iconsax.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div class="main-wrapper">
+    <%- include('../../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+    <div class="breadcrumb-bar text-center">
+      <div class="container">
+        <h2 class="breadcrumb-title mb-2">Sejarah Sekolah</h2>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/about/sejarah">Tentang</a></li>
+            <li class="breadcrumb-item active">Sejarah</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+            <div class="card">
+              <div class="card-body">
+                <h3 class="mb-4">Sejarah Berdirinya Baitul Jannah School</h3>
+                <p class="text-muted">Didirikan pada tahun 2005, Baitul Jannah School hadir sebagai lembaga pendidikan Islam yang berkomitmen membentuk generasi berakhlak mulia, cerdas, dan berdaya saing. Berawal dari program Taman Kanak-Kanak Islam Terpadu, sekolah terus berkembang hingga mencakup jenjang PGIT-TKIT, SDIT, SMPIT, SMAIT, dan SLBIT.</p>
+                <hr>
+                <h5>Perjalanan Penting</h5>
+                <ul>
+                  <li>2005: Pendirian TKIT dengan fokus pembinaan akhlak dan karakter.</li>
+                  <li>2008: Pembukaan SDIT untuk menyiapkan fondasi akademik yang kuat.</li>
+                  <li>2012: Perluasan ke jenjang SMPIT dan SMAIT dengan kurikulum terpadu.</li>
+                  <li>2018: Pendirian SLBIT untuk layanan pendidikan inklusif.</li>
+                  <li>2020-sekarang: Transformasi digital dan penguatan program prestasi.</li>
+                </ul>
+                <p>Dengan dukungan tenaga pendidik profesional dan fasilitas lengkap, Baitul Jannah School telah meraih berbagai prestasi akademik maupun non-akademik di tingkat regional dan nasional.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ <%- include('../../partials/footer') %>
+  </div>
+
+  <script src="/assets/js/jquery-3.7.1.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/script.js"></script>
+</body>
+</html>

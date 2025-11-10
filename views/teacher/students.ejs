@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> - Baitul Jannah School</title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/iconsax.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div class="main-wrapper">
+    <%- include('../partials/header', { extraHeaderClass: 'header-teacher' }) %>
+    <div class="breadcrumb-bar text-center">
+      <div class="container">
+        <h2 class="breadcrumb-title mb-2">Kelola Siswa</h2>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/teacher/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Siswa</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 theiaStickySidebar">
+            <%- include('../partials/sidebar-teacher') %>
+          </div>
+          <div class="col-lg-9">
+            <div class="card mb-4">
+              <div class="card-body">
+                <form class="row g-2" method="get" action="/teacher/students">
+                  <div class="col-md-6">
+                    <input type="text" name="search" class="form-control" value="<%= search %>" placeholder="Cari nama/NIS">
+                  </div>
+                  <div class="col-md-4">
+                    <input type="text" name="program" class="form-control" value="<%= program %>" placeholder="Program">
+                  </div>
+                  <div class="col-md-2">
+                    <button class="btn btn-secondary w-100" type="submit"><i class="fa-solid fa-filter me-1"></i>Filter</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>NIS</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>Telepon</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% if (students && students.length) { %>
+                        <% students.forEach(function(stu) { %>
+                          <tr>
+                            <td><%= stu.student_id %></td>
+                            <td><%= stu.full_name %></td>
+                            <td><%= stu.email %></td>
+                            <td><%= stu.phone || '-' %></td>
+                            <td>
+                              <a href="/teacher/students/<%= stu.id %>" class="btn btn-primary btn-sm">Detail</a>
+                            </td>
+                          </tr>
+                        <% }) %>
+                      <% } else { %>
+                        <tr><td colspan="5" class="text-center text-muted">Tidak ada data siswa.</td></tr>
+                      <% } %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('../partials/footer') %>
+  </div>
+  <script src="/assets/js/jquery-3.7.1.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Baitul Jannah School</title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+        <%- include('../../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
+            <div class="container">
+                <h2 class="breadcrumb-title mb-2">Kelola Berita</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Kelola Berita</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <!-- Sidebar -->
+                    <div class="col-lg-3 theiaStickySidebar">
+                        <%- include('../../partials/sidebar-admin') %>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="col-lg-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 class="mb-0">Daftar Berita</h5>
+                                    <a href="/admin/news/add" class="btn btn-primary">
+                                        <i class="isax isax-add me-2"></i>Tambah Berita
+                                    </a>
+                                </div>
+
+                                <% if (success) { %>
+                                    <div class="alert alert-success alert-dismissible fade show">
+                                        <%= success %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                <% } %>
+
+                                <% if (error) { %>
+                                    <div class="alert alert-danger alert-dismissible fade show">
+                                        <%= error %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                <% } %>
+
+                                <!-- Table -->
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Judul</th>
+                                                <th>Kategori</th>
+                                                <th>Penulis</th>
+                                                <th>Status</th>
+                                                <th>Views</th>
+                                                <th>Tanggal</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if (news && news.length > 0) { %>
+                                                <% news.forEach(item => { %>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <% if (item.image) { %>
+                                                            <img src="<%= item.image %>" class="rounded me-2" style="width: 50px; height: 50px; object-fit: cover;" alt="">
+                                                            <% } %>
+                                                            <div>
+                                                                <h6 class="mb-0"><%= item.title %></h6>
+                                                                <small class="text-muted"><%= item.slug %></small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><span class="badge bg-primary"><%= item.category %></span></td>
+                                                    <td><%= item.author_name %></td>
+                                                    <td>
+                                                        <span class="badge bg-<%= item.status === 'published' ? 'success' : item.status === 'draft' ? 'warning' : 'secondary' %>">
+                                                            <%= item.status === 'published' ? 'Published' : item.status === 'draft' ? 'Draft' : 'Archived' %>
+                                                        </span>
+                                                    </td>
+                                                    <td><%= item.views %></td>
+                                                    <td><%= new Date(item.published_date).toLocaleDateString('id-ID') %></td>
+                                                    <td>
+                                                        <a href="/news/<%= item.slug %>" target="_blank" class="btn btn-sm btn-info" title="Lihat">
+                                                            <i class="isax isax-eye"></i>
+                                                        </a>
+                                                        <a href="/admin/news/<%= item.id %>/edit" class="btn btn-sm btn-warning" title="Edit">
+                                                            <i class="isax isax-edit"></i>
+                                                        </a>
+                                                        <form action="/admin/news/<%= item.id %>/delete" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus berita ini?')">
+                                                            <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
+                                                                <i class="isax isax-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="7" class="text-center">Tidak ada data berita</td>
+                                                </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+<%- include('../../partials/footer') %>
+    </div>
+
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

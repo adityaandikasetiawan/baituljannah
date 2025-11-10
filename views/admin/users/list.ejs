@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Baitul Jannah School</title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+         <%- include('../../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
+            <div class="container">
+                <h2 class="breadcrumb-title mb-2">Kelola User</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Kelola User</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <!-- Sidebar -->
+                    <div class="col-lg-3 theiaStickySidebar">
+                        <%- include('../../partials/sidebar-admin') %>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="col-lg-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h5 class="mb-0">Daftar User</h5>
+                                    <a href="/admin/users/add" class="btn btn-primary">
+                                        <i class="isax isax-user-add me-2"></i>Tambah User
+                                    </a>
+                                </div>
+
+                                <% if (success) { %>
+                                    <div class="alert alert-success alert-dismissible fade show">
+                                        <%= success %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                <% } %>
+
+                                <% if (error) { %>
+                                    <div class="alert alert-danger alert-dismissible fade show">
+                                        <%= error %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                <% } %>
+
+                                <!-- Filter -->
+                                <form method="GET" class="mb-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <select name="role" class="form-control" onchange="this.form.submit()">
+                                                <option value="">Semua Role</option>
+                                                <option value="admin" <%= role === 'admin' ? 'selected' : '' %>>Admin</option>
+                                                <option value="teacher" <%= role === 'teacher' ? 'selected' : '' %>>Guru</option>
+                                                <option value="student" <%= role === 'student' ? 'selected' : '' %>>Siswa</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="text" name="search" class="form-control" placeholder="Cari nama, email, atau username..." value="<%= search %>">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="submit" class="btn btn-primary w-100">Cari</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <!-- Table -->
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Nama</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>Status</th>
+                                                <th>Terdaftar</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% if (users && users.length > 0) { %>
+                                                <% users.forEach(user => { %>
+                                                <tr>
+                                                    <td><%= user.full_name %></td>
+                                                    <td><%= user.email %></td>
+                                                    <td>
+                                                        <span class="badge bg-<%= user.role === 'admin' ? 'danger' : user.role === 'teacher' ? 'primary' : 'success' %>">
+                                                            <%= user.role === 'admin' ? 'Admin' : user.role === 'teacher' ? 'Guru' : 'Siswa' %>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge bg-<%= user.status === 'active' ? 'success' : 'secondary' %>">
+                                                            <%= user.status === 'active' ? 'Aktif' : 'Nonaktif' %>
+                                                        </span>
+                                                    </td>
+                                                    <td><%= new Date(user.created_at).toLocaleDateString('id-ID') %></td>
+                                                    <td>
+                                                        <a href="/admin/users/<%= user.id %>/edit" class="btn btn-sm btn-warning">
+                                                            <i class="isax isax-edit"></i>
+                                                        </a>
+                                                        <form action="/admin/users/<%= user.id %>/delete" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
+                                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                                <i class="isax isax-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td colspan="6" class="text-center">Tidak ada data user</td>
+                                                </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <%- include('../../partials/footer') %>
+    </div>
+
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

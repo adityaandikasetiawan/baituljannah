@@ -1,0 +1,50 @@
+{
+  "name": "baituljannah-school",
+  "version": "1.0.0",
+  "description": "Complete School Management System for Baitul Jannah",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "seed": "node seed.js",
+    "optimize:images": "node scripts/optimize-images.js",
+    "verify:banners": "node scripts/verify_home_banners.js",
+    "test:banners:http": "node scripts/test_home_banners_http.js",
+    "build:tailwind": "npx tailwindcss -c tailwind.config.js -i ./src/styles/tailwind.css -o ./public/assets/css/tailwind.css --minify",
+    "pm2:start": "pm2 start ecosystem.config.js --env production",
+    "pm2:reload": "pm2 reload baituljannah",
+    "pm2:stop": "pm2 stop baituljannah",
+    "pm2:status": "pm2 status",
+    "pm2:save": "pm2 save",
+    "pm2:startup": "pm2 startup systemd"
+  },
+  "keywords": [
+    "school",
+    "management",
+    "lms",
+    "education"
+  ],
+  "author": "Baitul Jannah",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "compression": "^1.8.1",
+    "connect-sqlite3": "^0.9.13",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "express-session": "^1.17.3",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "method-override": "^3.0.0",
+    "multer": "^1.4.5-lts.1",
+    "sqlite3": "^5.1.6",
+    "sharp": "^0.34.4",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "tailwindcss": "^3.4.13"
+  }
+}

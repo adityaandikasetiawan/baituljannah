@@ -1,0 +1,159 @@
+<!-- Global Header Partial -->
+<% if (typeof extraHeaderClass !== 'undefined' && String(extraHeaderClass).includes('header-teacher')) { %>
+  <!-- Inline override to ensure teacher header logos are fixed to 32px across breakpoints
+       Added here because the compiled style.css may not yet include the override rules -->
+  <style>
+    header.header-four.header-teacher .navbar-logo img.logo {
+      height: 32px !important;
+      width: auto;
+      display: block;
+    }
+    @media (max-width: 991.98px) {
+      header.header-four.header-teacher .main-menu-wrapper .menu-header .menu-logo img {
+        height: 32px !important;
+      }
+    }
+  </style>
+  <script>
+    (function(){
+      const selectorLogo = 'header.header-four.header-teacher .navbar-logo img.logo';
+      const selectorMobileLogo = 'header.header-four.header-teacher .main-menu-wrapper .menu-header .menu-logo img';
+      function applyTeacherHeaderLogoFix(){
+        var img1 = document.querySelector(selectorLogo);
+        if(img1){
+          img1.style.setProperty('height','32px','important');
+          img1.style.setProperty('max-height','32px','important');
+          img1.style.setProperty('width','auto','important');
+        }
+        var img2 = document.querySelector(selectorMobileLogo);
+        if(img2){
+          img2.style.setProperty('height','32px','important');
+          img2.style.setProperty('max-height','32px','important');
+          img2.style.setProperty('width','auto','important');
+        }
+      }
+      document.addEventListener('DOMContentLoaded', applyTeacherHeaderLogoFix);
+      window.addEventListener('load', applyTeacherHeaderLogoFix);
+      const mo = new MutationObserver(function(){ applyTeacherHeaderLogoFix(); });
+      mo.observe(document.documentElement || document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style','class','src'] });
+    })();
+  </script>
+<% } %>
+<header class="header-four <%= typeof extraHeaderClass !== 'undefined' ? extraHeaderClass : '' %>">
+  <div class="container">
+    <div class="header-nav">
+      <div class="navbar-header">
+        <a id="mobile_btn" href="javascript:void(0);">
+          <span class="bar-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </a>
+        <div class="navbar-logo">
+          <a class="logo-white header-logo" href="/">
+            <img src="/assets/img/logo.webp" class="logo" alt="Logo">
+          </a>
+          <a class="logo-dark header-logo" href="/">
+            <img src="/assets/img/logo.webp" class="logo" alt="Logo">
+          </a>
+        </div>
+      </div>
+
+      <div class="main-menu-wrapper">
+        <div class="menu-header">
+          <a href="/" class="menu-logo">
+            <img src="/assets/img/logo.webp" class="logo img-fluid" alt="Logo">
+          </a>
+          <a id="menu_close" class="menu-close" href="javascript:void(0);">
+            <i class="fas fa-times"></i>
+          </a>
+        </div>
+        <ul class="main-nav">
+          <li class="<%= currentPath === '/' ? 'active' : '' %>"><a href="/">Beranda</a></li>
+          <li class="has-submenu <%= currentPath.startsWith('/about') ? 'active' : '' %>">
+            <a href="#">Tentang <i class="fas fa-chevron-down"></i></a>
+            <ul class="submenu">
+              <li><a href="/about/sejarah">Sejarah</a></li>
+              <li><a href="/about/visi-misi">Visi & Misi</a></li>
+              <li><a href="/about/kepengurusan">Kepengurusan</a></li>
+              <li><a href="/about/fasilitas">Fasilitas</a></li>
+            </ul>
+          </li>
+          <li class="has-submenu <%= currentPath.startsWith('/profile') ? 'active' : '' %>">
+            <a href="#">Profile <i class="fas fa-chevron-down"></i></a>
+            <ul class="submenu">
+              <li><a href="/profile/pgit-tkit">PGIT-TKIT</a></li>
+              <li><a href="/profile/sdit">SDIT</a></li>
+              <li><a href="/profile/smpit">SMPIT</a></li>
+              <li><a href="/profile/smait">SMAIT</a></li>
+              <li><a href="/profile/slbit">SLBIT</a></li>
+            </ul>
+          </li>
+          <li class="has-submenu <%= ['/news','/achievements','/events','/bulletins','/gallery'].some(p => currentPath.startsWith(p)) ? 'active' : '' %>">
+            <a href="#">Informasi <i class="fas fa-chevron-down"></i></a>
+            <ul class="submenu">
+              <li><a href="/news">Berita</a></li>
+              <li><a href="/achievements">Prestasi</a></li>
+              <li><a href="/events">Agenda</a></li>
+              <li><a href="/bulletins">E-Buletin</a></li>
+              <li><a href="/gallery">Galeri Foto</a></li>
+            </ul>
+          </li>
+          <li class="has-submenu <%= currentPath.startsWith('/spmb') ? 'active' : '' %>">
+            <a href="#">SPMB <i class="fas fa-chevron-down"></i></a>
+            <ul class="submenu">
+              <li><a href="/spmb">Info SPMB</a></li>
+              <li><a href="/spmb/register">Daftar Online</a></li>
+            </ul>
+          </li>
+          <li class="<%= currentPath.startsWith('/contact') ? 'active' : '' %>"><a href="/contact">Kontak</a></li>
+        </ul>
+
+        <div class="menu-login">
+          <% if (user) { %>
+            <a href="<% if (user.role === 'admin') { %>/admin/dashboard<% } else if (user.role === 'teacher') { %>/teacher/dashboard<% } else { %>/student/dashboard<% } %>" class="btn btn-primary w-100 mb-2">
+              <i class="isax isax-user me-2"></i>Dashboard
+            </a>
+            <a href="/logout" class="btn btn-secondary w-100">
+              <i class="isax isax-logout me-2"></i>Logout
+            </a>
+          <% } else { %>
+            <a href="/login" class="btn btn-primary w-100 mb-2">
+              <i class="isax isax-user me-2"></i>Sign In
+            </a>
+            <a href="/register" class="btn btn-secondary w-100">
+              <i class="isax isax-user-edit me-2"></i>Register
+            </a>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="header-btn d-flex align-items-center">
+        <div class="icon-btn me-2">
+          <a href="javascript:void(0);" id="dark-mode-toggle" class="theme-toggle activate">
+            <i class="isax isax-sun-15"></i>
+          </a>
+          <a href="javascript:void(0);" id="light-mode-toggle" class="theme-toggle">
+            <i class="isax isax-moon"></i>
+          </a>
+        </div>
+        <% if (user) { %>
+          <a href="<% if (user.role === 'admin') { %>/admin/dashboard<% } else if (user.role === 'teacher') { %>/teacher/dashboard<% } else { %>/student/dashboard<% } %>" class="btn btn-primary d-inline-flex align-items-center me-2">
+            <i class="fa-solid fa-user me-2"></i>Dashboard
+          </a>
+          <a href="/logout" class="btn btn-secondary me-0">
+            <i class="fa-solid fa-sign-out me-2"></i>Logout
+          </a>
+        <% } else { %>
+          <a href="/login" class="btn btn-primary d-inline-flex align-items-center me-2">
+            <i class="fa-solid fa-user me-2"></i>Sign In
+          </a>
+          <a href="/register" class="btn btn-secondary me-0">
+            <i class="fa-solid fa-user me-2"></i>Register
+          </a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</header>

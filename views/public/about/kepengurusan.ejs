@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> - <%= appName %></title>
+<link rel="shortcut icon" href="/assets/img/logo.webp">
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/iconsax.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div class="main-wrapper">
+    <%- include('../../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+    <div class="breadcrumb-bar text-center">
+      <div class="container">
+        <h2 class="breadcrumb-title mb-2">Kepengurusan</h2>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/about/sejarah">Tentang</a></li>
+            <li class="breadcrumb-item active">Kepengurusan</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+            <div class="card">
+              <div class="card-body">
+                <h3 class="mb-4">Struktur Organisasi</h3>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <div class="p-3 border rounded">
+                      <h5>Kepala Sekolah</h5>
+                      <p class="text-muted mb-0">Ust. Ahmad Fauzi, M.Pd</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="p-3 border rounded">
+                      <h5>Wakil Kepala Sekolah</h5>
+                      <p class="text-muted mb-0">Ustadzah Siti Rahma, S.Pd</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="p-3 border rounded">
+                      <h5>Kurikulum</h5>
+                      <p class="text-muted mb-0">Tim Kurikulum Terpadu</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="p-3 border rounded">
+                      <h5>Kesiswaan</h5>
+                      <p class="text-muted mb-0">Tim Pembinaan Karakter</p>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+                <h5>Komite Sekolah</h5>
+                <p class="text-muted">Bekerja sama dengan orang tua untuk meningkatkan kualitas layanan pendidikan dan mendukung program sekolah.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ <%- include('../../partials/footer') %>
+  </div>
+
+  <script src="/assets/js/jquery-3.7.1.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/script.js"></script>
+</body>
+</html>

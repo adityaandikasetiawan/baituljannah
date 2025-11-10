@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> - Admin</title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/iconsax.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div class="main-wrapper">
+    <%- include('../../partials/header') %>
+    <div class="breadcrumb-bar text-center">
+      <div class="container">
+        <h2 class="breadcrumb-title mb-2">Kelola Kontak</h2>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Kontak</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 theiaStickySidebar">
+            <%- include('../../partials/sidebar-admin') %>
+          </div>
+          <div class="col-lg-9">
+            <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
+            <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Tipe</th>
+                        <th>Nama</th>
+                        <th>Email</th>
+                        <th>Subjek</th>
+                        <th>Status</th>
+                        <th>Tanggal</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% if (contacts && contacts.length) { %>
+                        <% contacts.forEach(function(c) { %>
+                          <tr>
+                            <td><%= c.type || 'general' %></td>
+                            <td><%= c.name %></td>
+                            <td><%= c.email %></td>
+                            <td><%= c.subject || '-' %></td>
+                            <td><span class="badge bg-<%= c.status === 'new' ? 'warning' : c.status === 'replied' ? 'success' : 'secondary' %>"><%= c.status %></span></td>
+                            <td><%= new Date(c.created_at).toLocaleString('id-ID') %></td>
+                            <td><a href="/admin/contacts/<%= c.id %>" class="btn btn-sm btn-primary">Detail</a></td>
+                          </tr>
+                        <% }) %>
+                      <% } else { %>
+                        <tr><td colspan="7" class="text-center text-muted">Tidak ada pesan kontak.</td></tr>
+                      <% } %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ <%- include('../../partials/footer') %>
+  </div>
+  <script src="/assets/js/jquery-3.7.1.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

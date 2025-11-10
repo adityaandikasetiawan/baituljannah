@@ -1,0 +1,553 @@
+<!DOCTYPE html> 
+<html lang="id" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Baitul Jannah School - Sistem Manajemen Sekolah Islam Terpadu">
+    <meta name="keywords" content="sekolah islam, pendidikan, baitul jannah, SDIT, SMPIT, SMAIT">
+    <meta name="author" content="Baitul Jannah School">
+    
+    <title>Beranda - Baitul Jannah School</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="/assets/img/logo.webp">
+    <!-- Fallback for older browsers -->
+    <link rel="icon" type="image/webp" href="/assets/img/logo.webp">
+    <link rel="apple-touch-icon" href="/assets/img/apple-icon.png">
+
+    <!-- Network hints: speed up external CDN handshake -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <!-- Preconnect Google Fonts to reduce font CSS/WOFF2 blocking -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+
+    <!-- Removed preload for first banner image to avoid "preloaded but not used" console warnings. -->
+
+    <!-- TailwindCSS: use CDN in development, compiled CSS in production -->
+    <% if (process.env.NODE_ENV !== 'production') { %>
+      <script src="https://cdn.tailwindcss.com"></script>
+      <script>
+        // Optional: extend Tailwind theme subtly for development
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                bjPrimary: '#0ea5e9',
+                bjSecondary: '#f59e0b'
+              }
+            }
+          }
+        }
+      </script>
+    <% } else { %>
+      <link rel="stylesheet" href="/assets/css/tailwind.css">
+    <% } %>
+
+    <script src="/assets/js/theme-script.js"></script>
+    
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/plugins/slick/slick.css">
+    <link rel="stylesheet" href="/assets/plugins/slick/slick-theme.css">
+    <link rel="stylesheet" href="/assets/plugins/aos/aos.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+    <div class="main-wrapper">
+    
+        <div class="home-4">
+            <!-- Header (kembali ke versi sebelumnya, ditambah jarak bawah) -->
+        <%- include('../partials/header', { extraHeaderClass: 'mb-3' }) %>
+            <!-- /Header -->
+        
+            <!-- Banner Slider (Tailwind + Slick) -->
+            <section id="banner" class="relative bg-gray-900 text-white" data-aos="fade-up">
+                <div class="banner-slider">
+                    <% if (typeof banners !== 'undefined' && banners && banners.length) { %>
+                        <% banners.forEach(function(b, i){ %>
+                            <div class="relative">
+                                <% const bnImgSrc = b.image; const bnIsUpload = bnImgSrc && bnImgSrc.startsWith('/uploads/'); const bnBaseNoExt = bnIsUpload ? bnImgSrc.replace(/\.(jpg|jpeg|png)$/i, '') : null; const bnWebpSrc = bnBaseNoExt ? bnBaseNoExt + '.webp' : null; %>
+                                <picture>
+                                    <% if (bnWebpSrc) { %>
+                                    <!-- Split sources: limit mobile to 320/640 to avoid 1024 selection on high-DPR phones -->
+                                    <source type="image/webp" media="(max-width: 767px)" srcset="<%= bnBaseNoExt %>-320.webp 320w, <%= bnBaseNoExt %>-640.webp 640w" sizes="100vw">
+                                    <source type="image/webp" media="(min-width: 768px)" srcset="<%= bnBaseNoExt %>-1024.webp 1024w, <%= bnBaseNoExt %>-1600.webp 1600w" sizes="100vw">
+                                    <% } %>
+                                    <img src="<%= bnImgSrc %>" alt="<%= b.title || 'Banner' %>" class="w-full h-[300px] md:h-[500px] object-cover" sizes="(min-width: 768px) 100vw, 100vw" decoding="async" fetchpriority="<%= i === 0 ? 'high' : 'low' %>" loading="<%= i === 0 ? 'eager' : 'lazy' %>">
+                                </picture>
+                                <div class="absolute inset-0 bg-black/50"></div>
+                                <div class="absolute inset-0 flex items-center">
+                                    <div class="px-6 md:px-12">
+                                        <% if (b.title) { %>
+                                            <h2 class="text-[clamp(24px,3.2vw,40px)] font-bold mb-2"><%= b.title %></h2>
+                                        <% } %>
+                                        <% if (b.subtitle) { %>
+                                            <p class="text-[clamp(14px,1.8vw,18px)] mb-4 max-w-2xl"><%= b.subtitle %></p>
+                                        <% } %>
+                                        <div class="flex flex-wrap gap-3">
+                                            <a href="/spmb/register" class="inline-flex items-center bg-bjPrimary hover:bg-sky-600 text-white px-4 py-2 rounded-lg">Daftar Sekarang</a>
+                                            <% if (b.link) { %>
+                                                <a href="<%= b.link %>" class="inline-flex items-center bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg border border-white/30">Selengkapnya</a>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <!-- Fallback static slides when no banners in DB -->
+                        <div class="relative">
+                            <picture>
+                                <source type="image/webp" media="(max-width: 767px)" srcset="/assets/img/hero/hero-3-320.webp 320w, /assets/img/hero/hero-3-640.webp 640w" sizes="100vw">
+                                <source type="image/webp" media="(min-width: 768px)" srcset="/assets/img/hero/hero-3-1024.webp 1024w, /assets/img/hero/hero-3-1600.webp 1600w" sizes="100vw">
+                                <img src="/assets/img/hero/hero-3.jpg" alt="Kegiatan Belajar" class="w-full h-[300px] md:h-[500px] object-cover" sizes="(min-width: 768px) 100vw, 100vw" decoding="async" fetchpriority="high" loading="eager">
+                            </picture>
+                            <div class="absolute inset-0 bg-black/50"></div>
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="px-6 md:px-12">
+                                    <h2 class="text-[clamp(24px,3.2vw,40px)] font-bold mb-2">Belajar Islami, Berprestasi</h2>
+                                    <p class="text-[clamp(14px,1.8vw,18px)] mb-4 max-w-2xl">Membangun generasi Qurani yang berakhlak mulia melalui kurikulum terpadu dan pembinaan karakter.</p>
+                                    <div class="flex flex-wrap gap-3">
+                                        <a href="/spmb/register" class="inline-flex items-center bg-bjPrimary hover:bg-sky-600 text-white px-4 py-2 rounded-lg">Daftar Sekarang</a>
+                                        <a href="/profile/sdit" class="inline-flex items-center bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg border border-white/30">Lihat Program</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <picture>
+                                <source type="image/webp" media="(max-width: 767px)" srcset="/assets/img/hero/hero-4-320.webp 320w, /assets/img/hero/hero-4-640.webp 640w" sizes="100vw">
+                                <source type="image/webp" media="(min-width: 768px)" srcset="/assets/img/hero/hero-4-1024.webp 1024w, /assets/img/hero/hero-4-1600.webp 1600w" sizes="100vw">
+                                <img src="/assets/img/hero/hero-4.jpg" alt="Kegiatan Tahfidz" class="w-full h-[300px] md:h-[500px] object-cover" sizes="(min-width: 768px) 100vw, 100vw" decoding="async" fetchpriority="low" loading="lazy">
+                            </picture>
+                            <div class="absolute inset-0 bg-black/50"></div>
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="px-6 md:px-12">
+                                    <h2 class="text-[clamp(24px,3.2vw,40px)] font-bold mb-2">Program Tahfidz Terstruktur</h2>
+                                    <p class="text-[clamp(14px,1.8vw,18px)] mb-4 max-w-2xl">Pembinaan hafalan Al-Quran dengan target capaian bertahap, dibimbing guru yang profesional.</p>
+                                    <div class="flex flex-wrap gap-3">
+                                        <a href="/spmb/register" class="inline-flex items-center bg-bjPrimary hover:bg-sky-600 text-white px-4 py-2 rounded-lg">Daftar Sekarang</a>
+                                        <a href="/profile/smpit" class="inline-flex items-center bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg border border-white/30">Lihat Program</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <picture>
+                                <source type="image/webp" media="(max-width: 767px)" srcset="/assets/img/hero/hero-5-320.webp 320w, /assets/img/hero/hero-5-640.webp 640w" sizes="100vw">
+                                <source type="image/webp" media="(min-width: 768px)" srcset="/assets/img/hero/hero-5-1024.webp 1024w, /assets/img/hero/hero-5-1600.webp 1600w" sizes="100vw">
+                                <img src="/assets/img/hero/hero-5.jpg" alt="Kegiatan Ekstrakurikuler" class="w-full h-[300px] md:h-[500px] object-cover" sizes="(min-width: 768px) 100vw, 100vw" decoding="async" fetchpriority="low" loading="lazy">
+                            </picture>
+                            <div class="absolute inset-0 bg-black/50"></div>
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="px-6 md:px-12">
+                                    <h2 class="text-[clamp(24px,3.2vw,40px)] font-bold mb-2">Ekskul Beragam & Menyenangkan</h2>
+                                    <p class="text-[clamp(14px,1.8vw,18px)] mb-4 max-w-2xl">Dukungan minat dan bakat siswa melalui English Club, Robotik, Leadership, dan lainnya.</p>
+                                    <div class="flex flex-wrap gap-3">
+                                        <a href="/spmb/register" class="inline-flex items-center bg-bjPrimary hover:bg-sky-600 text-white px-4 py-2 rounded-lg">Daftar Sekarang</a>
+                                        <a href="/profile/smait" class="inline-flex items-center bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg border border-white/30">Lihat Program</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                    <!-- Arrow Buttons -->
+                    <button id="banner-prev" class="absolute left-4 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-10 h-10 rounded-full bg-white text-gray-700 shadow-lg hover:shadow-xl">
+                        <span class="sr-only">Prev</span>
+                        <span class="text-xl">‹</span>
+                    </button>
+                    <button id="banner-next" class="absolute right-4 top-1/2 -translate-y-1/2 inline-flex items-center justify-center w-10 h-10 rounded-full bg-white text-gray-700 shadow-lg hover:shadow-xl">
+                        <span class="sr-only">Next</span>
+                        <span class="text-xl">›</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Jenjang Pendidikan (dynamic via props) -->
+            <section id="education-levels" class="py-12" style="background-color:#2e237a" data-aos="fade-up">
+                <div class="container">
+                    <div class="text-center mb-8 text-white">
+<h3 class="text-2xl md:text-3xl font-semibold text-white">Jenjang Pendidikan</h3>
+<p class="mt-2 opacity-80 text-white">PGIT–TKIT, SDIT, SMPIT, SMAIT, SLBIT, ASRAMA</p>
+                    </div>
+                    <% const levels = (typeof educationLevels !== 'undefined' && educationLevels && educationLevels.length)
+                        ? educationLevels
+                        : [
+                            { slug: 'pgit-tkit', name: 'PGIT–TKIT', href: '/profile/pgit-tkit', icon: 'fa-child' },
+                            { slug: 'sdit',      name: 'SDIT',      href: '/profile/sdit',     icon: 'fa-school' },
+                            { slug: 'smpit',     name: 'SMPIT',     href: '/profile/smpit',    icon: 'fa-user-graduate' },
+                            { slug: 'smait',     name: 'SMAIT',     href: '/profile/smait',    icon: 'fa-graduation-cap' },
+                            { slug: 'slbit',     name: 'SLBIT',     href: '/profile/slbit',    icon: 'fa-universal-access' },
+                            { slug: 'asrama',    name: 'ASRAMA',    href: '/about/fasilitas#asrama', icon: 'fa-house-chimney' }
+                        ]; %>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+                        <% levels.forEach(function(level){ %>
+                            <div class="flex flex-col items-center text-center gap-3 p-4">
+                                <div class="w-16 h-16 rounded-full bg-white text-[#2e237a] flex items-center justify-center shadow">
+                                    <i class="fa-solid <%= level.icon %> text-xl"></i>
+                                </div>
+                                <div class="text-white font-medium"><%= level.name %></div>
+                                <a href="<%= level.href %>" class="inline-flex items-center border border-white/60 text-white px-4 py-2 rounded-full hover:bg-white/10 transition text-sm">Selengkapnya</a>
+                            </div>
+                        <% }); %>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Program Unggulan -->
+            <section class="py-12" data-aos="fade-up">
+                <div class="container">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl md:text-3xl font-semibold">Program Unggulan</h3>
+                        <p class="text-gray-500 mt-2">Mengembangkan potensi siswa melalui program berkualitas</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Tahfidz -->
+                        <div class="flex items-start gap-4 p-5 rounded-xl border bg-white/60 hover:bg-white shadow-sm hover:shadow-md transition">
+                            <div class="w-12 h-12 flex items-center justify-center rounded-lg bg-sky-100 text-sky-600">
+                                <i class="isax isax-book text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Tahfidz</h4>
+                                <p class="text-sm text-gray-600">Program hafalan dan murajaah dengan target capaian bertahap.</p>
+                            </div>
+                        </div>
+                        <!-- English Club -->
+                        <div class="flex items-start gap-4 p-5 rounded-xl border bg-white/60 hover:bg-white shadow-sm hover:shadow-md transition">
+                            <div class="w-12 h-12 flex items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+                                <i class="isax isax-teacher text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">English Club</h4>
+                                <p class="text-sm text-gray-600">Kelas percakapan dan lomba bahasa Inggris rutin.</p>
+                            </div>
+                        </div>
+                        <!-- Robotic -->
+                        <div class="flex items-start gap-4 p-5 rounded-xl border bg-white/60 hover:bg-white shadow-sm hover:shadow-md transition">
+                            <div class="w-12 h-12 flex items-center justify-center rounded-lg bg-indigo-100 text-indigo-600">
+                                <i class="isax isax-creative text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Robotic</h4>
+                                <p class="text-sm text-gray-600">Belajar STEM dan teknologi melalui robotik dasar.</p>
+                            </div>
+                        </div>
+                        <!-- Leadership -->
+                        <div class="flex items-start gap-4 p-5 rounded-xl border bg-white/60 hover:bg-white shadow-sm hover:shadow-md transition">
+                            <div class="w-12 h-12 flex items-center justify-center rounded-lg bg-amber-100 text-amber-600">
+                                <i class="isax isax-people text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold mb-1">Leadership</h4>
+                                <p class="text-sm text-gray-600">Pelatihan kepemimpinan dan karakter melalui kegiatan OSIS.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Berita & Kegiatan -->
+            <section class="py-12" data-aos="fade-up">
+                <div class="container">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl md:text-3xl font-semibold">Berita & Kegiatan Terbaru</h3>
+                        <p class="text-gray-500 mt-2">Informasi seputar kegiatan, pengumuman, dan prestasi sekolah</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <% if (latestNews && latestNews.length > 0) { %>
+                            <% latestNews.forEach(news => { %>
+                                <div class="rounded-xl border bg-white/60 hover:bg-white shadow-sm hover:shadow-md transition overflow-hidden">
+                                    <a href="/news/<%= news.slug %>">
+                                        <% const hnImgSrc = news.image || '/assets/img/blog/blog-31.jpg'; const hnIsUpload = hnImgSrc && hnImgSrc.startsWith('/uploads/'); const hnBaseNoExt = hnIsUpload ? hnImgSrc.replace(/\.(jpg|jpeg|png)$/i, '') : null; const hnWebpSrc = hnBaseNoExt ? hnBaseNoExt + '.webp' : null; %>
+                                        <picture>
+                                            <% if (hnWebpSrc) { %>
+                                            <source type="image/webp" srcset="<%= hnBaseNoExt %>-320.webp 320w, <%= hnBaseNoExt %>-640.webp 640w, <%= hnBaseNoExt %>-1024.webp 1024w" sizes="(min-width: 768px) 33vw, 100vw">
+                                            <% } %>
+                                            <img src="<%= hnImgSrc %>" alt="<%= news.title %>" class="w-full h-44 object-cover" loading="lazy" decoding="async" width="640" height="176" onerror="this.onerror=null; this.src='/assets/img/blog/blog-31.jpg';">
+                                        </picture>
+                                    </a>
+                                    <div class="p-4">
+                                        <span class="text-xs text-sky-600 font-medium"><%= news.category || 'Berita' %></span>
+                                        <h4 class="font-semibold mt-1"><a href="/news/<%= news.slug %>"><%= news.title %></a></h4>
+                                        <p class="text-sm text-gray-600 mt-2"><%= news.excerpt %></p>
+                                        <div class="mt-3 flex items-center justify-between">
+                                            <span class="text-xs text-gray-500"><i class="fa-regular fa-clock mr-1"></i><%= new Date(news.published_date).toLocaleDateString('id-ID') %></span>
+                                            <a href="/news/<%= news.slug %>" class="text-sm text-bjPrimary hover:text-sky-600 font-medium">Selengkapnya</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <!-- Placeholder jika data tidak tersedia -->
+                            <% for (let i = 0; i < 3; i++) { %>
+                                <div class="rounded-xl border bg-white/60 shadow-sm overflow-hidden">
+                                    <img src="/assets/img/blog/blog-31.jpg" alt="Placeholder" class="w-full h-44 object-cover" loading="lazy" decoding="async">
+                                    <div class="p-4">
+                                        <span class="text-xs text-sky-600 font-medium">Berita</span>
+                                        <h4 class="font-semibold mt-1">Judul Berita Placeholder</h4>
+                                        <p class="text-sm text-gray-600 mt-2">Cuplikan singkat informasi terbaru sekolah akan tampil di sini.</p>
+                                        <div class="mt-3 flex items-center justify-between">
+                                            <span class="text-xs text-gray-500"><i class="fa-regular fa-clock mr-1"></i>--/--/----</span>
+                                            <a href="/news" class="text-sm text-bjPrimary hover:text-sky-600 font-medium">Selengkapnya</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    <div class="text-center mt-6">
+                        <a href="/news" class="inline-flex items-center bg-gray-900 text-white px-4 py-2 rounded-lg">Lihat Semua Berita</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Keunggulan Sekolah -->
+            <section class="py-12 bg-slate-50" data-aos="fade-up">
+                <div class="container">
+                    <div class="text-center mb-8">
+                        <h3 class="text-2xl md:text-3xl font-semibold">Keunggulan Sekolah</h3>
+                        <p class="text-gray-500 mt-2">Alasan memilih Baitul Jannah School</p>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="rounded-xl border bg-white p-5 text-center">
+                            <div class="w-12 h-12 mx-auto mb-3 flex items-center justify-center rounded-lg bg-sky-100 text-sky-600">
+                                <i class="isax isax-document text-xl"></i>
+                            </div>
+                            <h5 class="font-semibold">Kurikulum Terpadu</h5>
+                            <p class="text-sm text-gray-600">Menggabungkan kurikulum nasional dan keislaman.</p>
+                        </div>
+                        <div class="rounded-xl border bg-white p-5 text-center">
+                            <div class="w-12 h-12 mx-auto mb-3 flex items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+                                <i class="isax isax-teacher text-xl"></i>
+                            </div>
+                            <h5 class="font-semibold">Guru Profesional</h5>
+                            <p class="text-sm text-gray-600">Berpengalaman dan berkomitmen pada pembinaan akhlak.</p>
+                        </div>
+                        <div class="rounded-xl border bg-white p-5 text-center">
+                            <div class="w-12 h-12 mx-auto mb-3 flex items-center justify-center rounded-lg bg-indigo-100 text-indigo-600">
+                                <i class="isax isax-home-trend text-xl"></i>
+                            </div>
+                            <h5 class="font-semibold">Fasilitas Modern</h5>
+                            <p class="text-sm text-gray-600">Laboratorium, perpustakaan, dan sarana belajar lengkap.</p>
+                        </div>
+                        <div class="rounded-xl border bg-white p-5 text-center">
+                            <div class="w-12 h-12 mx-auto mb-3 flex items-center justify-center rounded-lg bg-amber-100 text-amber-600">
+                                <i class="isax isax-building-3 text-xl"></i>
+                            </div>
+                            <h5 class="font-semibold">Lingkungan Nyaman</h5>
+                            <p class="text-sm text-gray-600">Suasana belajar kondusif, aman, dan islami.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /Vision Section -->
+
+            <!-- Upcoming Events -->
+            <% if (upcomingEvents && upcomingEvents.length > 0) { %>
+            <section class="latest-blog-sec">
+                <div class="container">
+                    <div class="section-header text-center" data-aos="fade-up">
+                        <span class="fw-medium text-secondary fs-18 fw-bold mb-2 d-inline-block">Agenda Sekolah</span>
+                        <h2>Kegiatan Mendatang</h2>
+                        <p>Jangan lewatkan berbagai kegiatan menarik di Baitul Jannah School</p>
+                    </div>
+                    <div class="row justify-content-center">
+                        <% upcomingEvents.forEach(event => { %>
+                        <div class="col-xl-4 col-lg-6 col-md-6" data-aos="fade-down">	
+                            <div class="event-blog-main">
+                                <div class="latest-blog-img">
+                                    <a href="/events">
+                                        <% const heImgSrc = event.image || '/assets/img/blog/blog-32.jpg'; const heIsUpload = heImgSrc && heImgSrc.startsWith('/uploads/'); const heBaseNoExt = heIsUpload ? heImgSrc.replace(/\.(jpg|jpeg|png)$/i, '') : null; const heWebpSrc = heBaseNoExt ? heBaseNoExt + '.webp' : null; %>
+                                        <picture>
+                                            <% if (heWebpSrc) { %>
+                                        <source type="image/webp" srcset="<%= heBaseNoExt %>-320.webp 320w, <%= heBaseNoExt %>-640.webp 640w" sizes="(min-width: 768px) 50vw, 100vw">
+                                            <% } %>
+                                            <img class="img-fluid" alt="<%= event.title %>" src="<%= heImgSrc %>" loading="lazy" decoding="async">
+                                        </picture>
+                                    </a>
+                                </div>
+                                <div class="blog-content">
+                                    <a href="/events" class="category-name"><%= event.category || 'Event' %></a>
+                                    <h4 class="title"><a href="/events"><%= event.title %></a></h4>
+                                    <p class="blog-date"><i class="isax isax-calendar-1 me-1"></i><%= new Date(event.event_date).toLocaleDateString('id-ID') %></p>
+                                    <% if (event.location) { %>
+                                    <p class="blog-date"><i class="isax isax-location me-1"></i><%= event.location %></p>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="more-details text-center" data-aos="fade-down">
+                            <a href="/events" class="btn btn-secondary btn-xl">Lihat Semua Agenda</a>
+                        </div>
+                    </div>
+                </div>
+                <img src="/assets/img/bg/blog-bg.png" alt="img" class="blog-bg" loading="lazy" decoding="async">
+            </section>	
+            <% } %>
+            <!-- /Upcoming Events -->
+
+            <!-- Gallery -->
+            <% if (galleryImages && galleryImages.length > 0) { %>
+            <section class="topcategory-sec">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <span class="fw-medium text-secondary fs-18 fw-bold mb-2 d-inline-block">Galeri Foto</span>
+                        <h2>Dokumentasi Kegiatan</h2>
+                        <p>Lihat berbagai kegiatan dan momen berharga di Baitul Jannah School</p>
+                    </div>
+                    <div class="row">
+                        <% galleryImages.forEach(image => { %>
+                        <div class="col-xl-2 col-lg-4 col-md-6 col-sm-6 d-flex" data-aos="fade-down">
+                            <div class="categories-item categories-item-four flex-fill">
+                                <a href="/gallery">
+                                    <% const hgImgSrc = image.image_path; const hgIsUpload = hgImgSrc && hgImgSrc.startsWith('/uploads/'); const hgBaseNoExt = hgIsUpload ? hgImgSrc.replace(/\.(jpg|jpeg|png)$/i, '') : null; const hgWebpSrc = hgBaseNoExt ? hgBaseNoExt + '.webp' : null; %>
+                                    <picture>
+                                        <% if (hgWebpSrc) { %>
+                                        <source type="image/webp" srcset="<%= hgBaseNoExt %>-320.webp 320w, <%= hgBaseNoExt %>-640.webp 640w" sizes="(min-width: 992px) 25vw, (min-width: 768px) 33vw, 100vw">
+                                        <% } %>
+                                            <img src="<%= hgImgSrc %>" alt="<%= image.title %>" class="img-fluid" style="width: 100%; height: 150px; object-fit: cover;" loading="lazy" decoding="async" width="300" height="150">
+                                    </picture>
+                                </a>
+                                <h6 class="title mt-2"><a href="/gallery"><%= image.title %></a></h6>
+                            </div>
+                        </div>
+                        <% }); %>
+                    </div>
+                    <div class="more-details text-center" data-aos="fade-down">
+                        <a href="/gallery" class="btn btn-secondary btn-xl">Lihat Semua Galeri</a>
+                    </div>
+                </div>
+            </section>	
+            <% } %>
+            <!-- /Gallery -->
+
+            <!-- Statistics -->
+            <!-- <section class="testimonial-sec">
+                <div class="container">
+                    <div class="testimonial-two-img">
+    <img src="/assets/img/bg/bg-14.png" alt="Img" class="img-fluid" loading="lazy" decoding="async">
+                    </div>
+                    <div class="testimonial-subhead-two">
+                        <div class="col-md-12" data-aos="fade-down">						
+                            <div class="testimonial-inner">						
+                                <div class="section-header text-center">
+                                    <h2 data-aos="fade-down">Bergabunglah dengan Kami</h2>
+                                    <p>Raih prestasi dan masa depan gemilang bersama Baitul Jannah School</p>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="col-md-3 col-sm-6" data-aos="fade-up">
+                                        <div class="course-count-two course-count border">
+                                            <h4><span class="counterUp text-secondary"><%= stats.students.count %></span></h4>
+                                            <p>Siswa Aktif</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6" data-aos="fade-up">
+                                        <div class="course-count-two course-count border">
+                                            <h4><span class="counterUp text-success"><%= stats.teachers.count %></span></h4>
+                                            <p>Guru Profesional</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6" data-aos="fade-up">
+                                        <div class="course-count-two course-count border">
+                                            <h4><span class="counterUp text-primary"><%= stats.programs %></span></h4>
+                                            <p>Program Pendidikan</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6" data-aos="fade-up">
+                                        <div class="course-count-two course-count border">
+                                            <h4><span class="counterUp text-warning"><%= stats.achievements.count %></span></h4>
+                                            <p>Prestasi Diraih</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section> -->
+            <!-- /Statistics -->
+        
+            <!-- Footer -->
+            <%- include('../partials/footer') %>
+        </div>
+       
+    </div>
+   <!-- /Main Wrapper -->
+  
+    <script>
+      // Init AOS after full page load so elements in viewport animate immediately without requiring scroll
+      window.addEventListener('load', function() {
+        if (window.AOS) {
+          AOS.init({ once: true, duration: 600, easing: 'ease-out', startEvent: 'load', offset: 0 });
+          // Force animate any element already in viewport to avoid "hidden until scroll" issue
+          var forceAnimateInView = function(){
+            try {
+              document.querySelectorAll('[data-aos]').forEach(function(el){
+                var rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                  el.classList.add('aos-animate');
+                }
+              });
+            } catch(e) {}
+          };
+          forceAnimateInView();
+          // In case layouts shift after load (e.g., sliders), do another pass shortly after
+          setTimeout(forceAnimateInView, 300);
+          AOS.refresh();
+        }
+      });
+
+      // Mobile menu toggle
+      document.addEventListener('DOMContentLoaded', function(){
+        var toggle = document.getElementById('mobile-menu-toggle');
+        var menu = document.getElementById('mobile-menu');
+        if (toggle && menu) {
+          toggle.addEventListener('click', function(){
+            menu.classList.toggle('hidden');
+          });
+        }
+      });
+
+      // Init Slick for banner slider + custom arrow handlers
+      $(function(){
+        var $slider = $('.banner-slider');
+        if ($slider.length) {
+          // Ensure AOS recalculates once the slider finishes initializing
+          $slider.on('init', function(){
+            if (window.AOS) { AOS.refresh(); }
+            // Also make sure any sections moved into viewport become visible immediately
+            try {
+              document.querySelectorAll('[data-aos]').forEach(function(el){
+                var rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                  el.classList.add('aos-animate');
+                }
+              });
+            } catch(e) {}
+          });
+          $slider.slick({
+          dots: true,
+          arrows: false,
+          autoplay: true,
+          autoplaySpeed: 4000,
+          fade: true,
+          cssEase: 'linear'
+          });
+        }
+        $('#banner-prev').on('click', function(){ $slider.slick('slickPrev'); });
+        $('#banner-next').on('click', function(){ $slider.slick('slickNext'); });
+      });
+    </script>
+    
+</body>
+</html>

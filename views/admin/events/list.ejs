@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> - Admin</title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/iconsax.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div class="main-wrapper">
+    <%- include('../../partials/header') %>
+    <div class="breadcrumb-bar text-center">
+      <div class="container">
+        <h2 class="breadcrumb-title mb-2">Kelola Acara</h2>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item active">Acara</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 theiaStickySidebar">
+            <%- include('../../partials/sidebar-admin') %>
+          </div>
+          <div class="col-lg-9">
+            <% if (success) { %><div class="alert alert-success"><%= success %></div><% } %>
+            <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h6 class="mb-0">Daftar Acara</h6>
+              <a class="btn btn-primary" href="/admin/events/add"><i class="fa-solid fa-plus me-1"></i>Tambah Acara</a>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Judul</th>
+                        <th>Tanggal</th>
+                        <th>Waktu</th>
+                        <th>Lokasi</th>
+                        <th>Kategori</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% if (events && events.length) { %>
+                        <% events.forEach(function(e) { %>
+                          <tr>
+                            <td><%= e.title %></td>
+                            <td><%= new Date(e.event_date).toLocaleDateString('id-ID') %></td>
+                            <td><%= e.event_time || '-' %></td>
+                            <td><%= e.location || '-' %></td>
+                            <td><%= e.category || '-' %></td>
+                            <td><span class="badge bg-<%= e.status === 'published' ? 'success' : 'secondary' %>"><%= e.status %></span></td>
+                            <td>
+                              <a href="/admin/events/<%= e.id %>/edit" class="btn btn-sm btn-primary">Edit</a>
+                              <form action="/admin/events/<%= e.id %>/delete" method="post" class="d-inline" onsubmit="return confirm('Hapus acara ini?')">
+                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                              </form>
+                            </td>
+                          </tr>
+                        <% }) %>
+                      <% } else { %>
+                        <tr><td colspan="7" class="text-center text-muted">Tidak ada acara.</td></tr>
+                      <% } %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ <%- include('../../partials/footer') %>
+  </div>
+  <script src="/assets/js/jquery-3.7.1.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

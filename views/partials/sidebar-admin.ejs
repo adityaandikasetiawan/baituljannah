@@ -1,0 +1,43 @@
+<!-- Admin Sidebar (settings-sidebar style) -->
+<% const cp = (typeof currentPath === 'string') ? currentPath : ''; %>
+<div class="settings-sidebar">
+  <div>
+    <h6 class="mb-3">Menu Utama</h6>
+    <ul class="mb-3 pb-1">
+      <li>
+        <a href="/admin/dashboard" class="d-inline-flex align-items-center <%= cp.startsWith('/admin/dashboard') ? 'active' : '' %>"><i class="isax isax-grid-35 me-2"></i>Dashboard</a>
+      </li>
+      <li>
+        <a href="/admin/users" class="d-inline-flex align-items-center <%= cp.startsWith('/admin/users') ? 'active' : '' %>"><i class="isax isax-people5 me-2"></i>Kelola User</a>
+      </li>
+      <li>
+        <a href="/admin/news" class="d-inline-flex align-items-center <%= cp.startsWith('/admin/news') ? 'active' : '' %>"><i class="isax isax-document-text5 me-2"></i>Kelola Berita</a>
+      </li>
+      <li>
+        <a href="/admin/events" class="d-inline-flex align-items-center <%= cp.startsWith('/admin/events') ? 'active' : '' %>"><i class="isax isax-calendar5 me-2"></i>Kelola Agenda</a>
+      </li>
+      <li>
+        <a href="/admin/gallery" class="d-inline-flex align-items-center <%= cp.startsWith('/admin/gallery') ? 'active' : '' %>"><i class="isax isax-gallery5 me-2"></i>Kelola Galeri</a>
+      </li>
+      <li>
+        <a href="/admin/registrations" class="d-inline-flex align-items-center <%= cp.startsWith('/admin/registrations') ? 'active' : '' %>"><i class="isax isax-note-215 me-2"></i>SPMB</a>
+      </li>
+      <li>
+        <a href="/admin/contacts" class="d-inline-flex align-items-center <%= cp.startsWith('/admin/contacts') ? 'active' : '' %>"><i class="isax isax-messages-35 me-2"></i>Kontak</a>
+      </li>
+      <li>
+        <a href="/admin/bulletins" class="d-inline-flex align-items-center <%= cp.startsWith('/admin/bulletins') ? 'active' : '' %>"><i class="isax isax-book5 me-2"></i>E-Buletin</a>
+      </li>
+      <li>
+        <a href="/admin/achievements" class="d-inline-flex align-items-center <%= cp.startsWith('/admin/achievements') ? 'active' : '' %>"><i class="isax isax-award5 me-2"></i>Prestasi</a>
+      </li>
+    </ul>
+    <hr>
+    <h6 class="mb-3">Pengaturan</h6>
+    <ul>
+      <li>
+        <a href="/logout" class="d-inline-flex align-items-center"><i class="isax isax-logout5 me-2"></i>Logout</a>
+      </li>
+    </ul>
+  </div>
+</div>

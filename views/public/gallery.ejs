@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Baitul Jannah School</title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fancybox/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+        <%- include('../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
+            <div class="container">
+                <h2 class="breadcrumb-title mb-2">Galeri Foto</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">Galeri</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="container">
+                <!-- Filter -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-center gap-2 flex-wrap">
+                            <a href="/gallery" class="btn btn-<%= !category ? 'primary' : 'outline-primary' %>">Semua</a>
+                            <a href="/gallery?category=Akademik" class="btn btn-<%= category === 'Akademik' ? 'primary' : 'outline-primary' %>">Akademik</a>
+                            <a href="/gallery?category=Kegiatan" class="btn btn-<%= category === 'Kegiatan' ? 'primary' : 'outline-primary' %>">Kegiatan</a>
+                            <a href="/gallery?category=Prestasi" class="btn btn-<%= category === 'Prestasi' ? 'primary' : 'outline-primary' %>">Prestasi</a>
+                            <a href="/gallery?category=Fasilitas" class="btn btn-<%= category === 'Fasilitas' ? 'primary' : 'outline-primary' %>">Fasilitas</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gallery Grid -->
+                <div class="row">
+                    <% if (galleries && galleries.length > 0) { %>
+                        <% galleries.forEach(gallery => { %>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4">
+                            <div class="gallery-widget">
+                                <a href="<%= gallery.image_path %>" data-fancybox="gallery" data-caption="<%= gallery.title %>">
+                                    <% const galImgSrc = gallery.image_path; const galIsUpload = galImgSrc && galImgSrc.startsWith('/uploads/'); const galBaseNoExt = galIsUpload ? galImgSrc.replace(/\.(jpg|jpeg|png)$/i, '') : null; const galWebpSrc = galBaseNoExt ? galBaseNoExt + '.webp' : null; %>
+                                    <picture>
+                                        <% if (galWebpSrc) { %>
+                                        <source type="image/webp" srcset="<%= galBaseNoExt %>-320.webp 320w, <%= galBaseNoExt %>-640.webp 640w, <%= galBaseNoExt %>-1024.webp 1024w, <%= galBaseNoExt %>-1600.webp 1600w" sizes="(min-width: 1200px) 25vw, (min-width: 992px) 33vw, (min-width: 768px) 50vw, 100vw">
+                                        <% } %>
+                                        <img class="img-fluid" alt="<%= gallery.title %>" src="<%= galImgSrc %>" loading="lazy" decoding="async" width="1200" height="250">
+                                    </picture>
+                                    <div class="gallery-overlay">
+                                        <div class="gallery-content">
+                                            <h5 class="text-white"><%= gallery.title %></h5>
+                                            <% if (gallery.description) { %>
+                                            <p class="text-white-50"><%= gallery.description %></p>
+                                            <% } %>
+                                            <% if (gallery.category) { %>
+                                            <span class="badge bg-primary"><%= gallery.category %></span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="col-12 text-center py-5">
+                            <img src="/assets/img/error/error-03.svg" class="img-fluid mb-4" style="max-width: 300px;" alt="No Gallery" loading="lazy" decoding="async">
+                            <h4>Belum Ada Foto</h4>
+                            <p class="text-muted">Saat ini belum ada foto di galeri.</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <%- include('../partials/footer') %>
+    </div>
+
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/plugins/fancybox/jquery.fancybox.min.js"></script>
+    <script src="/assets/js/script.js"></script>
+    <style>
+        .gallery-widget {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .gallery-widget img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .gallery-widget:hover img {
+            transform: scale(1.1);
+        }
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .gallery-widget:hover .gallery-overlay {
+            opacity: 1;
+        }
+        .gallery-content {
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</body>
+</html>

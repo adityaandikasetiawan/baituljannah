@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Baitul Jannah School</title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+        <%- include('../partials/header', { extraHeaderClass: 'mb-3' }) %>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
+            <div class="container">
+                <h2 class="breadcrumb-title mb-2">Agenda Sekolah</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">Agenda</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <% if (events && events.length > 0) { %>
+                        <% events.forEach(event => { %>
+                        <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
+                            <div class="event-blog-main">
+                                <div class="latest-blog-img">
+                                    <% const evImgSrc = event.image || '/assets/img/blog/blog-32.jpg'; const evIsUpload = evImgSrc && evImgSrc.startsWith('/uploads/'); const evBaseNoExt = evIsUpload ? evImgSrc.replace(/\.(jpg|jpeg|png)$/i, '') : null; const evWebpSrc = evBaseNoExt ? evBaseNoExt + '.webp' : null; %>
+                                    <picture>
+                                        <% if (evWebpSrc) { %>
+                                        <source type="image/webp" srcset="<%= evBaseNoExt %>-320.webp 320w, <%= evBaseNoExt %>-640.webp 640w, <%= evBaseNoExt %>-1024.webp 1024w, <%= evBaseNoExt %>-1600.webp 1600w" sizes="(min-width: 1200px) 33vw, (min-width: 768px) 50vw, 100vw">
+                                        <% } %>
+                                        <img class="img-fluid" alt="<%= event.title %>" src="<%= evImgSrc %>" loading="lazy" decoding="async">
+                                    </picture>
+                                </div>
+                                <div class="blog-content">
+                                    <a href="javascript:void(0);" class="category-name"><%= event.category || 'Event' %></a>
+                                    <h4 class="title"><%= event.title %></h4>
+                                    <p><%= event.description %></p>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="isax isax-calendar-1 me-2 text-primary"></i>
+                                        <span><%= new Date(event.event_date).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+                                    </div>
+                                    <% if (event.event_time) { %>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="isax isax-clock me-2 text-primary"></i>
+                                        <span><%= event.event_time %></span>
+                                    </div>
+                                    <% } %>
+                                    <% if (event.location) { %>
+                                    <div class="d-flex align-items-center">
+                                        <i class="isax isax-location me-2 text-primary"></i>
+                                        <span><%= event.location %></span>
+                                    </div>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="col-12 text-center py-5">
+        <img src="/assets/img/error/error-03.svg" class="img-fluid mb-4" style="max-width: 300px;" alt="No Events" loading="lazy" decoding="async">
+                            <h4>Belum Ada Agenda</h4>
+                            <p class="text-muted">Saat ini belum ada agenda yang tersedia.</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <%- include('../partials/footer') %>
+    </div>
+
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

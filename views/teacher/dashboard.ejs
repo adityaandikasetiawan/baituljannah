@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Baitul Jannah School</title>
+<link rel="shortcut icon" href="/assets/img/logo.webp">
+    <script src="/assets/js/theme-script.js"></script>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- Inline override to ensure teacher dashboard header logo is 32px
+         This is added because the compiled style.css served may not yet include the new rule -->
+    <style>
+      header.header-two.header-teacher .navbar-logo img.logo,
+      header.header-two.header-teacher .navbar-logo img.logo.img-fluid {
+        height: 32px !important;
+        max-height: 32px !important;
+        width: auto !important;
+        display: block;
+      }
+    </style>
+    <script>
+      (function(){
+        const selector = 'header.header-two.header-teacher .navbar-logo img.logo';
+        function applyLogoFix(){
+          var img = document.querySelector(selector);
+          if(img){
+            img.style.setProperty('height','32px','important');
+            img.style.setProperty('max-height','32px','important');
+            img.style.setProperty('width','auto','important');
+            // Ensure bootstrap's img-fluid does not override height
+            // but keep responsiveness for width
+          }
+        }
+        // Apply ASAP and keep enforcing if other scripts mutate the element
+        document.addEventListener('DOMContentLoaded', applyLogoFix);
+        window.addEventListener('load', applyLogoFix);
+        const mo = new MutationObserver(function(){ applyLogoFix(); });
+        mo.observe(document.documentElement || document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style','class','src'] });
+      })();
+    </script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+        <%- include('../partials/header', { extraHeaderClass: 'mb-3 header-teacher' }) %>
+
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
+            <div class="container">
+                <h2 class="breadcrumb-title mb-2">Dashboard Guru</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="container">
+                <!-- Profile Card -->
+                <div class="profile-card overflow-hidden bg-blue-gradient2 mb-5 p-5">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <span class="avatar avatar-xxl avatar-rounded me-3 border border-white border-2">
+                                    <img src="<%= teacher.avatar || '/assets/img/user/user-02.jpg' %>" alt="">
+                                </span>
+                                <div>
+                                    <h5 class="mb-1 text-white"><%= teacher.full_name %></h5>
+                                    <p class="text-light">NIP: <%= teacher.teacher_id %></p>
+                                    <p class="text-light">Mata Pelajaran: <%= teacher.subject || '-' %></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center justify-content-lg-end flex-wrap gap-2">
+                                <a href="/teacher/profile" class="btn btn-white rounded-pill">Edit Profil</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Sidebar -->
+                    <div class="col-lg-3 theiaStickySidebar">
+                        <div class="settings-sidebar">
+                            <div>
+                                <h6 class="mb-3">Menu Utama</h6>
+                                <ul class="mb-3 pb-1">
+                                    <li><a href="/teacher/dashboard" class="d-inline-flex align-items-center active"><i class="isax isax-grid-35 me-2"></i>Dashboard</a></li>
+                                    <li><a href="/teacher/profile" class="d-inline-flex align-items-center"><i class="fa-solid fa-user me-2"></i>Profil Saya</a></li>
+                                    <li><a href="/teacher/students" class="d-inline-flex align-items-center"><i class="isax isax-people5 me-2"></i>Kelola Siswa</a></li>
+                                    <li><a href="/teacher/grades" class="d-inline-flex align-items-center"><i class="isax isax-award5 me-2"></i>Kelola Nilai</a></li>
+                                    <li><a href="/teacher/materials" class="d-inline-flex align-items-center"><i class="isax isax-book5 me-2"></i>Materi</a></li>
+                                </ul>
+                                <hr>
+                                <h6 class="mb-3">Pengaturan</h6>
+                                <ul>
+                                    <li><a href="/teacher/settings" class="d-inline-flex align-items-center"><i class="isax isax-setting-25 me-2"></i>Pengaturan</a></li>
+                                    <li><a href="/logout" class="d-inline-flex align-items-center"><i class="isax isax-logout5 me-2"></i>Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="col-lg-9">
+                        <!-- Statistics -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <span class="icon-box bg-primary-transparent me-3 flex-shrink-0">
+                                                <img src="/assets/img/icon/student.svg" alt="">
+                                            </span>
+                                            <div>
+                                                <span class="d-block">Total Siswa</span>
+                                                <h4 class="fs-24 mt-1"><%= stats.totalStudents %></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <span class="icon-box bg-secondary-transparent me-3 flex-shrink-0">
+                                                <img src="/assets/img/icon/book.svg" alt="">
+                                            </span>
+                                            <div>
+                                                <span class="d-block">Total Kelas</span>
+                                                <h4 class="fs-24 mt-1"><%= stats.totalClasses %></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <span class="icon-box bg-success-transparent me-3 flex-shrink-0">
+                                                <img src="/assets/img/icon/award.svg" alt="">
+                                            </span>
+                                            <div>
+                                                <span class="d-block">Nilai Diinput</span>
+                                                <h4 class="fs-24 mt-1"><%= stats.totalGrades %></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Grades -->
+                        <% if (recentGrades && recentGrades.length > 0) { %>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="mb-3 border-bottom pb-3 fs-18">Nilai Terbaru yang Diinput</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Siswa</th>
+                                                <th>NIS</th>
+                                                <th>Mata Pelajaran</th>
+                                                <th>Semester</th>
+                                                <th>Nilai</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% recentGrades.forEach(grade => { %>
+                                            <tr>
+                                                <td><%= grade.student_name %></td>
+                                                <td><%= grade.student_id %></td>
+                                                <td><%= grade.subject %></td>
+                                                <td><%= grade.semester %></td>
+                                                <td><span class="badge bg-<%= grade.grade >= 80 ? 'success' : grade.grade >= 70 ? 'warning' : 'danger' %>"><%= grade.grade %></span></td>
+                                            </tr>
+                                            <% }); %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <a href="/teacher/grades" class="btn btn-primary">Lihat Semua Nilai</a>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+
+                        <!-- Quick Actions -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="mb-3 border-bottom pb-3 fs-18">Aksi Cepat</h5>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <a href="/teacher/students" class="btn btn-primary w-100 d-flex align-items-center justify-content-center">
+                                            <i class="isax isax-people me-2"></i>Kelola Siswa
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <a href="/teacher/grades" class="btn btn-secondary w-100 d-flex align-items-center justify-content-center">
+                                            <i class="isax isax-award me-2"></i>Input Nilai
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <a href="/teacher/materials" class="btn btn-success w-100 d-flex align-items-center justify-content-center">
+                                            <i class="isax isax-book me-2"></i>Upload Materi
+                                        </a>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <a href="/teacher/profile" class="btn btn-warning w-100 d-flex align-items-center justify-content-center">
+                                            <i class="isax isax-user-edit me-2"></i>Edit Profil
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <%- include('../partials/footer') %>
+    </div>
+
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
+    <script src="/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

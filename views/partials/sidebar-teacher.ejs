@@ -1,0 +1,47 @@
+<!-- Teacher Sidebar Partial (Styled to match design screenshot) -->
+<div class="settings-sidebar">
+  <div>
+    <h6 class="mb-3">Menu Utama</h6>
+    <ul class="mb-3 pb-1">
+      <li>
+        <a href="/teacher/dashboard" class="d-inline-flex align-items-center <%= currentPath.startsWith('/teacher/dashboard') ? 'active' : '' %>">
+          <i class="isax isax-grid-35 me-2"></i>Dashboard
+        </a>
+      </li>
+      <li>
+        <a href="/teacher/profile" class="d-inline-flex align-items-center <%= currentPath.startsWith('/teacher/profile') ? 'active' : '' %>">
+          <i class="fa-solid fa-user me-2"></i>Profil Saya
+        </a>
+      </li>
+      <li>
+        <a href="/teacher/students" class="d-inline-flex align-items-center <%= currentPath.startsWith('/teacher/students') ? 'active' : '' %>">
+          <i class="isax isax-people5 me-2"></i>Kelola Siswa
+        </a>
+      </li>
+      <li>
+        <a href="/teacher/grades" class="d-inline-flex align-items-center <%= currentPath.startsWith('/teacher/grades') ? 'active' : '' %>">
+          <i class="isax isax-award5 me-2"></i>Kelola Nilai
+        </a>
+      </li>
+      <li>
+        <a href="/teacher/materials" class="d-inline-flex align-items-center <%= currentPath.startsWith('/teacher/materials') ? 'active' : '' %>">
+          <i class="isax isax-book5 me-2"></i>Materi
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <h6 class="mb-3">Pengaturan</h6>
+    <ul>
+      <li>
+        <a href="/teacher/settings" class="d-inline-flex align-items-center <%= currentPath.startsWith('/teacher/settings') ? 'active' : '' %>">
+          <i class="isax isax-setting-25 me-2"></i>Pengaturan
+        </a>
+      </li>
+      <li>
+        <a href="/logout" class="d-inline-flex align-items-center">
+          <i class="isax isax-logout5 me-2"></i>Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

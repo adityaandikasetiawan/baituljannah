@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Baitul Jannah School</title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/plugins/summernote/summernote-lite.min.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+        <header class="header-two">
+            <div class="container">
+                <div class="header-nav">
+                    <div class="navbar-header">
+                        <a id="mobile_btn" href="javascript:void(0);">
+                            <span class="bar-icon"><span></span><span></span><span></span></span>
+                        </a>
+                        <div class="navbar-logo">
+<a href="/"><img src="/assets/img/logo.webp" class="logo" alt="Logo"></a>
+                        </div>
+                    </div>
+                    <div class="header-btn d-flex align-items-center">
+                        <a href="/admin/news" class="btn btn-secondary me-2">Kembali</a>
+                        <a href="/logout" class="btn btn-danger">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
+            <div class="container">
+                <h2 class="breadcrumb-title mb-2"><%= news ? 'Edit Berita' : 'Tambah Berita' %></h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="/admin/news">Kelola Berita</a></li>
+                        <li class="breadcrumb-item active"><%= news ? 'Edit' : 'Tambah' %></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="card">
+                            <div class="card-body">
+                                <% if (error) { %>
+                                    <div class="alert alert-danger alert-dismissible fade show">
+                                        <%= error %>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                <% } %>
+
+                                <form action="<%= news ? '/admin/news/' + news.id : '/admin/news' %>" method="POST" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="col-md-8 mb-3">
+                                            <label class="form-label">Judul Berita <span class="text-danger">*</span></label>
+                                            <input type="text" name="title" class="form-control" value="<%= news ? news.title : '' %>" required>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label">Kategori <span class="text-danger">*</span></label>
+                                            <select name="category" class="form-control" required>
+                                                <option value="">Pilih Kategori</option>
+                                                <option value="Akademik" <%= news && news.category === 'Akademik' ? 'selected' : '' %>>Akademik</option>
+                                                <option value="Prestasi" <%= news && news.category === 'Prestasi' ? 'selected' : '' %>>Prestasi</option>
+                                                <option value="Kegiatan" <%= news && news.category === 'Kegiatan' ? 'selected' : '' %>>Kegiatan</option>
+                                                <option value="Program" <%= news && news.category === 'Program' ? 'selected' : '' %>>Program</option>
+                                                <option value="Pengumuman" <%= news && news.category === 'Pengumuman' ? 'selected' : '' %>>Pengumuman</option>
+                                                <option value="Fasilitas" <%= news && news.category === 'Fasilitas' ? 'selected' : '' %>>Fasilitas</option>
+                                                <option value="Teknologi" <%= news && news.category === 'Teknologi' ? 'selected' : '' %>>Teknologi</option>
+                                                <option value="Pengembangan" <%= news && news.category === 'Pengembangan' ? 'selected' : '' %>>Pengembangan</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Ringkasan/Excerpt <span class="text-danger">*</span></label>
+                                            <textarea name="excerpt" class="form-control" rows="2" required><%= news ? news.excerpt : '' %></textarea>
+                                            <small class="text-muted">Ringkasan singkat yang akan ditampilkan di listing berita</small>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label class="form-label">Konten Berita <span class="text-danger">*</span></label>
+                                            <textarea name="content" id="summernote" class="form-control" rows="10" required><%= news ? news.content : '' %></textarea>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Gambar Berita</label>
+                                            <input type="file" name="image" class="form-control" accept="image/*">
+                                            <% if (news && news.image) { %>
+                                                <div class="mt-2">
+                                                    <img src="<%= news.image %>" class="img-thumbnail" style="max-width: 200px;" alt="Current Image">
+                                                    <p class="small text-muted mt-1">Gambar saat ini (upload gambar baru untuk mengganti)</p>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Status <span class="text-danger">*</span></label>
+                                            <select name="status" class="form-control" required>
+                                                <option value="draft" <%= news && news.status === 'draft' ? 'selected' : '' %>>Draft</option>
+                                                <option value="published" <%= !news || news.status === 'published' ? 'selected' : '' %>>Published</option>
+                                                <option value="archived" <%= news && news.status === 'archived' ? 'selected' : '' %>>Archived</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="isax isax-save-2 me-2"></i><%= news ? 'Update Berita' : 'Simpan Berita' %>
+                                            </button>
+                                            <a href="/admin/news" class="btn btn-secondary ms-2">Batal</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="text-center">
+                        <p class="text-white">Copyright &copy; <%= new Date().getFullYear() %> Baitul Jannah School</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/plugins/summernote/summernote-lite.min.js"></script>
+    <script src="/assets/js/script.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#summernote').summernote({
+                height: 300,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        });
+    </script>
+</body>
+</html>

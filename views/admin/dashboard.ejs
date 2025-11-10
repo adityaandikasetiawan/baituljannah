@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %> - Baitul Jannah School</title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+    <script src="/assets/js/theme-script.js"></script>
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/iconsax.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Header -->
+         <%- include('../partials/header', { extraHeaderClass: 'mb-3' }) %>    
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb-bar text-center">
+            <div class="container">
+                <h2 class="breadcrumb-title mb-2">Dashboard Admin</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center mb-0">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <!-- Sidebar -->
+                    <div class="col-lg-3 theiaStickySidebar">
+                        <%- include('../partials/sidebar-admin') %>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="col-lg-9">
+                        <!-- Statistics -->
+                        <div class="row">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <span class="icon-box bg-primary-transparent me-2 flex-shrink-0">
+                                                <img src="/assets/img/icon/student.svg" alt="">
+                                            </span>
+                                            <div>
+                                                <span class="d-block">Total Siswa</span>
+                                                <h4 class="fs-24 mt-1"><%= stats.totalStudents.count %></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <span class="icon-box bg-secondary-transparent me-2 flex-shrink-0">
+                                                <img src="/assets/img/icon/teacher.svg" alt="">
+                                            </span>
+                                            <div>
+                                                <span class="d-block">Total Guru</span>
+                                                <h4 class="fs-24 mt-1"><%= stats.totalTeachers.count %></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <span class="icon-box bg-success-transparent me-2 flex-shrink-0">
+                                                <img src="/assets/img/icon/document.svg" alt="">
+                                            </span>
+                                            <div>
+                                                <span class="d-block">Berita</span>
+                                                <h4 class="fs-24 mt-1"><%= stats.totalNews.count %></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <span class="icon-box bg-warning-transparent me-2 flex-shrink-0">
+                                                <img src="/assets/img/icon/calendar.svg" alt="">
+                                            </span>
+                                            <div>
+                                                <span class="d-block">Agenda</span>
+                                                <h4 class="fs-24 mt-1"><%= stats.totalEvents.count %></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pending Items -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="mb-3 border-bottom pb-3 fs-18">
+                                            <i class="isax isax-note-2 me-2"></i>Pendaftaran SPMB Pending
+                                            <span class="badge bg-warning float-end"><%= stats.pendingRegistrations.count %></span>
+                                        </h5>
+                                        <% if (recentRegistrations && recentRegistrations.length > 0) { %>
+                                            <% recentRegistrations.forEach(reg => { %>
+                                            <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+                                                <div>
+                                                    <h6 class="mb-1"><%= reg.full_name %></h6>
+                                                    <p class="small text-muted mb-0">Program: <%= reg.program %></p>
+                                                    <small class="text-muted"><%= new Date(reg.created_at).toLocaleDateString('id-ID') %></small>
+                                                </div>
+                                                <a href="/admin/registrations/<%= reg.id %>" class="btn btn-sm btn-primary">Lihat</a>
+                                            </div>
+                                            <% }); %>
+                                            <div class="text-center">
+                                                <a href="/admin/registrations" class="btn btn-secondary btn-sm">Lihat Semua</a>
+                                            </div>
+                                        <% } else { %>
+                                            <p class="text-center text-muted">Tidak ada pendaftaran pending</p>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="mb-3 border-bottom pb-3 fs-18">
+                                            <i class="isax isax-messages-3 me-2"></i>Pesan Baru
+                                            <span class="badge bg-info float-end"><%= stats.newContacts.count %></span>
+                                        </h5>
+                                        <% if (recentContacts && recentContacts.length > 0) { %>
+                                            <% recentContacts.forEach(contact => { %>
+                                            <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+                                                <div>
+                                                    <h6 class="mb-1"><%= contact.name %></h6>
+                                                    <p class="small text-muted mb-0"><%= contact.subject %></p>
+                                                    <small class="text-muted"><%= new Date(contact.created_at).toLocaleDateString('id-ID') %></small>
+                                                </div>
+                                                <a href="/admin/contacts/<%= contact.id %>" class="btn btn-sm btn-primary">Lihat</a>
+                                            </div>
+                                            <% }); %>
+                                            <div class="text-center">
+                                                <a href="/admin/contacts" class="btn btn-secondary btn-sm">Lihat Semua</a>
+                                            </div>
+                                        <% } else { %>
+                                            <p class="text-center text-muted">Tidak ada pesan baru</p>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="mb-3 border-bottom pb-3 fs-18">Aksi Cepat</h5>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <a href="/admin/users/add" class="btn btn-primary w-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                            <i class="isax isax-user-add fs-1 mb-2"></i>
+                                            <span>Tambah User</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <a href="/admin/news/add" class="btn btn-secondary w-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                            <i class="isax isax-document-text fs-1 mb-2"></i>
+                                            <span>Tambah Berita</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <a href="/admin/events/add" class="btn btn-success w-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                            <i class="isax isax-calendar-add fs-1 mb-2"></i>
+                                            <span>Tambah Agenda</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 mb-3">
+                                        <a href="/admin/gallery/add" class="btn btn-warning w-100 d-flex flex-column align-items-center justify-content-center p-3">
+                                            <i class="isax isax-gallery-add fs-1 mb-2"></i>
+                                            <span>Upload Galeri</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+    <%- include('../partials/footer') %>
+    </div>
+
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/plugins/theia-sticky-sidebar/ResizeSensor.js"></script>
+    <script src="/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js"></script>
+    <script src="/assets/js/script.js"></script>
+</body>
+</html>

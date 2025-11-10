@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> - Admin</title>
+  <link rel="shortcut icon" href="/assets/img/logo.webp">
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets/plugins/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/iconsax.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <div class="main-wrapper">
+    <%- include('../../partials/header') %>
+    <div class="breadcrumb-bar text-center">
+      <div class="container">
+        <h2 class="breadcrumb-title mb-2"><%= achievement ? 'Edit Prestasi' : 'Tambah Prestasi' %></h2>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="/admin/achievements">Prestasi</a></li>
+            <li class="breadcrumb-item active"><%= achievement ? 'Edit' : 'Tambah' %></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 theiaStickySidebar">
+            <%- include('../../partials/sidebar-admin') %>
+          </div>
+          <div class="col-lg-9">
+            <% if (error) { %><div class="alert alert-danger"><%= error %></div><% } %>
+            <div class="card">
+              <div class="card-body">
+                <% const dateVal = achievement && achievement.achievement_date ? new Date(achievement.achievement_date).toISOString().slice(0,10) : '' %>
+                <form action="<%= achievement ? ('/admin/achievements/' + achievement.id) : '/admin/achievements' %>" method="post" enctype="multipart/form-data">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label class="form-label">Judul</label>
+                        <input type="text" name="title" class="form-control" value="<%= achievement ? achievement.title : '' %>" required>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label class="form-label">Tanggal Prestasi</label>
+                        <input type="date" name="achievement_date" class="form-control" value="<%= dateVal %>" required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="mb-3">
+                        <label class="form-label">Deskripsi</label>
+                        <textarea name="description" class="form-control" rows="3"><%= achievement ? achievement.description : '' %></textarea>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label class="form-label">Kategori (opsional)</label>
+                        <input type="text" name="category" class="form-control" value="<%= achievement ? (achievement.category || '') : '' %>" placeholder="Mis: Akademik, Prestasi, Kegiatan">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label class="form-label">ID Siswa (opsional)</label>
+                        <input type="number" name="student_id" class="form-control" placeholder="Masukkan ID siswa jika terkait" value="<%= achievement ? (achievement.student_id || '') : '' %>">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label class="form-label">Gambar (opsional)</label>
+                        <input type="file" name="image" class="form-control" accept="image/*">
+                        <% if (achievement && achievement.image) { %>
+                          <p class="text-muted mt-1">Gambar saat ini: <a href="<%= achievement.image %>" target="_blank">preview</a></p>
+                          <input type="hidden" name="existing_image" value="<%= achievement.image %>">
+                        <% } %>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary"><%= achievement ? 'Update' : 'Simpan' %></button>
+                  <a href="/admin/achievements" class="btn btn-link">Batal</a>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ <%- include('../../partials/footer') %>
+  </div>
+  <script src="/assets/js/jquery-3.7.1.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
