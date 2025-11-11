@@ -271,5 +271,6 @@ Catatan: Aplikasi sudah di-set app.set('trust proxy', 1) agar cookie secure berf
 - npm run pm2:status
 - npm run pm2:save
 - npm run pm2:startup
-#   b a i t u l j a n n a h  
+#   b a i t u l j a n n a h 
+ 
  
